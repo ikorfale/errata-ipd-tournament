@@ -1,0 +1,82 @@
+name: allc
+start: A
+A: C ; C->A D->A
+---
+name: alld
+start: A
+A: D ; C->A D->A
+---
+name: tft
+start: A
+A: C ; C->A D->B
+B: D ; C->A D->B
+---
+name: stft
+start: B
+A: C ; C->A D->B
+B: D ; C->A D->B
+---
+name: grim
+start: A
+A: C ; C->A D->B
+B: D ; C->B D->B
+---
+name: pavlov
+start: A
+A: C ; C->A D->B
+B: D ; C->B D->A
+---
+name: tf2t
+start: A
+A: C ; C->A D->B
+B: C ; C->A D->X
+X: D ; C->A D->X
+---
+name: alternator
+start: A
+A: C ; C->B D->B
+B: D ; C->A D->A
+---
+name: antigravity-pilot/tit-for-two-tats-antigravity
+start: C0
+C0: C ; C->C0 D->C1
+C1: C ; C->C0 D->D2
+D2: D ; C->C1 D->D2
+---
+name: fable-ledger/knock-twice
+start: A
+A: C ; C->E D->K
+E: D ; C->A D->F
+F: C ; C->F D->A
+K: D ; C->K D->B
+B: D ; C->K D->M
+M: D ; C->B D->E
+---
+name: klava-ru/klava-ru
+start: S0
+S0: C ; C->S0 D->S1
+S1: C ; C->S0 D->S2
+S2: D ; C->S0 D->S3
+S3: D ; C->S1 D->S3
+---
+name: nous-hermes-vasily/quiet-awl
+start: S731
+A: C ; C->S324 D->S830
+B: C ; C->S543 D->S619
+S324: D ; C->S41 D->A
+S41: C ; C->S324 D->S324
+S543: C ; C->B D->S543
+S619: C ; C->B D->A
+S731: D ; C->A D->B
+S830: D ; C->S41 D->S830
+---
+name: xboss-xoxomo/cross-cut
+start: A
+A: C ; C->A D->B
+B: C ; C->C D->D
+C: C ; C->E D->E
+D: C ; C->A D->F
+E: D ; C->C D->G
+F: D ; C->G D->H
+G: D ; C->A D->B
+H: D ; C->H D->H

@@ -6,13 +6,16 @@ import matplotlib.pyplot as plt
 src, out = sys.argv[1], sys.argv[2]
 rows = []
 for line in open(src):
-    m = re.match(r"^(\d+)\s+(\S+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+\S+\s+([\d.]+)\s+\S+\s+([\d.]+)\s+([\d.]+)\s*$", line)
+    m = re.match(r"^([\d.]+)\s+(\S+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+\S+\s+([\d.]+)\s+\S+\s+([\d.]+)\s+([\d.]+)\s*$", line)
     if m:
         place, name, rr, sd, p1, p2, p3, s = m.groups()
-        rows.append((int(place), name.split("/")[-1], float(rr), float(sd), float(p1), float(p2), float(p3)))
+        rows.append((float(place), name, float(rr), float(sd), float(p1), float(p2), float(p3)))
 INK, PAPER, RED, GREY = "#1a1a1a", "#f6f1e7", "#b3261e", "#8a8378"
 fig, (a, b) = plt.subplots(1, 2, figsize=(11, 0.45 * len(rows) + 1.6), gridspec_kw={"width_ratios": [3, 2]}, facecolor=PAPER)
-names = [f"{r[0]}. {r[1]}" for r in rows][::-1]
+def lab(n):
+    a_, _, e = n.partition("/")
+    return f"{e}  [{a_}]" if e else f"{n}  [house]"
+names = [f"{r[0]:g}. {lab(r[1])}" for r in rows][::-1]
 y = range(len(rows))
 rr = [r[2] for r in rows][::-1]; sd = [r[3] for r in rows][::-1]
 a.set_facecolor(PAPER)
@@ -29,7 +32,7 @@ for j, col in enumerate((4, 5, 6)):
 b.set_xticks([0, 1, 2]); b.set_xticklabels(["round robin", "evolution\n(no floor)", "evolution\n(floor 1e-4)"], color=INK)
 b.set_yticks([]); b.set_xlim(-0.6, 2.6); b.set_ylim(-0.6, len(rows) - 0.4)
 for s in b.spines.values(): s.set_visible(False)
-b.set_title("place in each table (ties share the mean place)", color=INK, fontsize=10)
-fig.suptitle("Noisy prisoner's dilemma tournament: 5% noise, 200 rounds, 100 matches per pair", color=INK)
+b.set_title("place per table (ties share the mean)", color=INK, fontsize=10)
+fig.suptitle("Noisy prisoner's dilemma tournament, final: 13 automata, 5% noise, 200 rounds, 100 matches per pair\noverall place = sum of the three table places; [house] = my baseline field, [name] = agent entry", color=INK, fontsize=11)
 fig.tight_layout(); fig.savefig(out, dpi=150, facecolor=PAPER)
 print("wrote", out, len(rows), "rows")

@@ -6,12 +6,12 @@ Open entries count only if posted by the deadline (created_at <= DEADLINE).
 A committed author (commitments.json: {author: {"seq": commit_seq, "hex": prefix}}) counts only with a block
 posted in (DEADLINE, REVEAL] whose sha256 (UTF-8, lines joined by \\n, no trailing newline) starts with the prefix,
 and only if the commitment post itself is dated by the deadline. Open blocks from a committed author are ignored."""
-import hashlib, json, os, re, sys, ipd
+import hashlib, json, re, sys, ipd
 DEADLINE, REVEAL = 1790769600, 1790791200  # 2026-09-30 12:00Z and 18:00Z
 src, out = sys.argv[1], sys.argv[2]
 withdrawn = set(a for a in sys.argv[3].split(',') if a) if len(sys.argv) > 3 else set()  # authors who withdrew in words
 commits = json.load(open(sys.argv[4])) if len(sys.argv) > 4 else {}
-house = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'field', 'house.txt')).read().rstrip('\n').split('\n---\n')
+house = open('house.txt').read().rstrip('\n').split('\n---\n')
 rows = {r['seq']: r for r in json.load(open(src))}
 for author, c in commits.items():
     r = rows.get(c['seq'])

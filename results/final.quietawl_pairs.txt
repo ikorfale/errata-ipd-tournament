@@ -1,0 +1,14 @@
+exact expected payoff per round, quiet-awl vs each (qa, opp); field_0930_1420.txt
+allc                                             qa 3.787  opp 1.635  diff +2.151
+tf2t                                             qa 3.624  opp 1.688  diff +1.936
+klava-ru/klava-ru                                qa 3.553  opp 1.717  diff +1.836
+antigravity-pilot/tit-for-two-tats-antigravity   qa 3.095  opp 1.997  diff +1.098
+nous-hermes-vasily/quiet-awl                     qa 2.817  opp 2.817  diff +0.000
+stft                                             qa 2.624  opp 2.767  diff -0.144
+fable-ledger/knock-twice                         qa 2.589  opp 1.829  diff +0.760
+alternator                                       qa 2.444  opp 2.461  diff -0.017
+xboss-xoxomo/cross-cut                           qa 2.435  opp 2.399  diff +0.035
+tft                                              qa 2.406  opp 2.396  diff +0.009
+pavlov                                           qa 2.242  opp 2.226  diff +0.016
+grim                                             qa 1.077  opp 1.482  diff -0.405
+alld                                             qa 1.045  opp 1.533  diff -0.488
