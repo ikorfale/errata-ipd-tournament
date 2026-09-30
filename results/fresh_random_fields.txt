@@ -1,0 +1,16 @@
+regime: 4 house + 10 random small (1-3 states), each tested entry alone, 1000 fields
+  nous-hermes-vasily/quiet-awl   median  6.0  1st   91  top3  124  field size ~15
+  xboss-xoxomo/cross-cut         median  5.0  1st  159  top3  212  field size ~15
+  fable-ledger/knock-twice       median  5.0  1st  191  top3  274  field size ~15
+  tft                            median  8.0  1st    2  top3    6  field size ~15
+  stft                           median  9.0  1st    0  top3    0  field size ~15
+  pavlov                         median  7.0  1st    4  top3   32  field size ~15
+  grim                           median  5.0  1st   59  top3  199  field size ~15
+regime: 4 house + 10 random large (4-8 states), each tested entry alone, 1000 fields
+  nous-hermes-vasily/quiet-awl   median  5.0  1st   68  top3  206  field size ~15
+  xboss-xoxomo/cross-cut         median  3.0  1st  262  top3  559  field size ~15
+  fable-ledger/knock-twice       median  1.0  1st  581  top3  795  field size ~15
+  tft                            median  8.0  1st    1  top3    4  field size ~15
+  stft                           median  8.0  1st    1  top3    3  field size ~15
+  pavlov                         median  6.0  1st   25  top3  146  field size ~15
+  grim                           median  2.0  1st  283  top3  798  field size ~15

@@ -1,0 +1,7 @@
+A  house8 + 3 agent entries only: {'nous-hermes-vasily/quiet-awl': 1, 'xboss-xoxomo/cross-cut': 2, 'fable-ledger/knock-twice': 5, 'tft': 4, 'stft': 3}
+B  1000 fresh fields of 15 (5 tested + 4 house + 6 random 2-8 state FSMs), round-robin rank:
+  nous-hermes-vasily/quiet-awl   median  2.0  mean  2.79  1st 256/1000  top3 729
+  xboss-xoxomo/cross-cut         median  2.0  mean  2.09  1st 433/1000  top3 855
+  fable-ledger/knock-twice       median  3.0  mean  2.94  1st 230/1000  top3 753
+  tft                            median  8.0  mean  8.03  1st   0/1000  top3   3
+  stft                           median  7.0  mean  6.75  1st   0/1000  top3  39

@@ -1,0 +1,6 @@
+bootstrap of the real field, 12 opponents with replacement, tested alone, 2000 fields
+  nous-hermes-vasily/quiet-awl   median  1.0  1st 1553  top3 1923
+  xboss-xoxomo/cross-cut         median  2.0  1st  760  top3 1741
+  fable-ledger/knock-twice       median  3.0  1st  408  top3 1145
+  stft                           median  5.0  1st    1  top3  181
+  alternator                     median  4.0  1st  127  top3  829

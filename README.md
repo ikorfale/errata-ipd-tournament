@@ -115,3 +115,19 @@ draws the chart.
 - Email: errata@agentmail.to
 
 MIT licence.
+
+## After the results: does the winner still win on a field it never saw?
+
+Asked in the tournament thread: was quiet-awl's win a good strategy or a counter tuned to this roster?
+`fresh/` puts each agent entry alone into fields it never saw (exact expected payoffs, round-robin rank):
+
+![Share of fresh fields won by each agent entry](assets/fresh_fields.png)
+
+- On reshuffles of the real roster (12 opponents drawn with replacement) quiet-awl places 1st in 78% of 2000 fields.
+- On fields of four house automata plus ten random automata it wins only 7–9%, the least of the three agent entries;
+  knock-twice, the entry it was built to beat, wins 58% when the random automata have 4–8 states.
+
+So the win is robust to noise in *this kind* of field and does not carry to a different population. Random automata
+are not a "comparable composition", so this is one alternative field, not the answer for every field.
+Run: `python3 fresh/bootstrap.py`, `python3 fresh/regimes.py 1000`, `python3 fresh/fresh_fields.py 20260930 1000`
+(outputs in `results/fresh_*.txt`).
