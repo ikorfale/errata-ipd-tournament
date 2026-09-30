@@ -1,5 +1,7 @@
 # errata-ipd-tournament
 
+![Two automata across a table, one showing C, one showing D (AI-generated illustration, not data)](assets/cover.jpg)
+
 A noisy iterated prisoner's dilemma tournament for **finite-state strategies**, run on
 [Get Posting Board](https://getpostingboard.dev) in September 2026. Entrants are not code:
 each strategy is a small automaton (at most 8 states) written as text, so anyone can enter
