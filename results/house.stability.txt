@@ -1,0 +1,9 @@
+2026-09-29 10:35 horizon/stability check (evo_svg.py + ad hoc):
+HOUSE field (8), no floor: grim on top in 17/20 seeds at gen 1000, but grim is NOT stable under 5% noise:
+  M[grim][grim]=1.24 < M[tf2t][grim]=1.289 (seed 14). Seed 14: pavlov peaks 0.98 ~gen 100, grim 0.9998 by gen 300,
+  tf2t retakes 100% by gen 850, then tft/alternator by gen 5000. At 5000 gens: seeds 2,13,14 tft, 7 tf2t, rest grim.
+  => "grim wins evolution" on the house field is a 1000-generation snapshot; the floor table keeps grim only because
+  the floor deletes the invader. Qualify the Axelrod comparison line accordingly.
+CURRENT field (house + antigravity-pilot, fable-ledger/knock-twice, klava-ru; unsalted seeds): knock-twice 100% in
+  20/20 seeds at both 1000 and 5000 gens; nobody earns >= M[kt][kt]=2.66 against it (seeds 0,1). Stable.
+Charts: python3 evo_svg.py FIELD out.svg SALT -> out.floor0.svg, out.floor0.0001.svg; render with ~/venv cairosvg.

@@ -1,0 +1,11 @@
+rows tournaments 102337 1150 distinct strategies 195
+noise range 2.106765810538924e-05 0.0994149356404663 tournaments with noise 0.03-0.07: 209
+allc       Cooperator               all: n= 504 median_norm_rank=0.902 | noise 3-7%: n=209 median=0.900
+alld       Defector                 all: n= 525 median_norm_rank=0.635 | noise 3-7%: n=217 median=0.646
+tft        Tit For Tat              all: n= 516 median_norm_rank=0.354 | noise 3-7%: n=199 median=0.341
+stft       Suspicious Tit For Tat   all: n= 516 median_norm_rank=0.642 | noise 3-7%: n=200 median=0.642
+grim       Grudger                  all: n= 585 median_norm_rank=0.145 | noise 3-7%: n=229 median=0.162
+pavlov     Win-Stay Lose-Shift      all: n= 528 median_norm_rank=0.689 | noise 3-7%: n=205 median=0.706
+tf2t       Tit For 2 Tats           all: n= 508 median_norm_rank=0.341 | noise 3-7%: n=211 median=0.265
+alternator Alternator               all: n= 493 median_norm_rank=0.800 | noise 3-7%: n=205 median=0.795
+similar names: ['Hard Tit For 2 Tats', 'Slow Tit For Two Tats', 'Tit For 2 Tats', 'Grudger', 'Soft Grudger', 'GrudgerAlternator', 'Adaptive Pavlov 2011', 'Hard Tit For Tat', 'Win-Stay Lose-Shift', 'Anti Tit For Tat', 'Opposite Grudger', 'Spiteful Tit For Tat', 'Slow Tit For Two Tats 2', 'Contrite Tit For Tat', 'Forgiving Tit For Tat', 'Tit For Tat', 'Adaptive Tit For Tat', 'Adaptive Pavlov 2006', 'Forgetful Grudger', 'General Soft Grudger', 'Sneaky Tit For Tat', 'Suspicious Tit For Tat', 'Win-Shift Lose-Stay']

@@ -1,0 +1,28 @@
+entries: 8; seeds sha256(file)[:16]+0..19 = e7fe6feee9d5f411+k; noise 0.05, 200 rounds, 100 reps per pair
+round-robin, mean points per round over 20 seeds (sd):
+  alternator       2.258 (0.002)
+  pavlov           2.201 (0.005)
+  tft              2.198 (0.005)
+  tf2t             2.190 (0.004)
+  stft             2.179 (0.005)
+  grim             2.147 (0.005)
+  alld             2.133 (0.002)
+  allc             1.924 (0.006)
+evolution, mean final share after 1000 generations over 20 seeds (sd), extinction floor 0:
+  grim             0.850 (0.366)
+  tf2t             0.059 (0.223)
+  tft              0.058 (0.178)
+  alternator       0.033 (0.102)
+  stft             0.000 (0.000)
+  allc             0.000 (0.000)
+  alld             0.000 (0.000)
+  pavlov           0.000 (0.000)
+evolution, mean final share after 1000 generations over 20 seeds (sd), extinction floor 0.0001:
+  grim             0.850 (0.366)
+  tft              0.058 (0.178)
+  pavlov           0.050 (0.224)
+  alternator       0.033 (0.102)
+  tf2t             0.009 (0.028)
+  stft             0.000 (0.000)
+  allc             0.000 (0.000)
+  alld             0.000 (0.000)
