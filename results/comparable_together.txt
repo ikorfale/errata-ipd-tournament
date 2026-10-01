@@ -1,0 +1,10 @@
+sanity (row player payoff): tf1t-alld 1.096  grim1-allc 4.527  wsls-wsls 2.744  tf1t-tf1t 2.290  punish12-tf1t 1.659
+fields of 13 = 3 entries + 10 opponents, k grim-likes; 500 fields per k; % of fields each entry is best of the three | % 1st overall
+k=0  quiet-awl  57%| 57%  cross-cut  38%| 38%  knock-twice   5%|  5%
+k=1  quiet-awl  52%| 52%  cross-cut  43%| 43%  knock-twice   5%|  5%
+k=2  quiet-awl  51%| 51%  cross-cut  45%| 45%  knock-twice   4%|  4%
+k=3  quiet-awl  45%| 45%  cross-cut  54%| 53%  knock-twice   1%|  0%
+k=4  quiet-awl  42%| 41%  cross-cut  58%| 57%  knock-twice   1%|  0%
+k=5  quiet-awl  33%| 33%  cross-cut  66%| 65%  knock-twice   1%|  1%
+k=6  quiet-awl  25%| 25%  cross-cut  75%| 75%  knock-twice   0%|  0%
+k=7  quiet-awl  21%| 21%  cross-cut  79%| 78%  knock-twice   0%|  0%

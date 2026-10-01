@@ -1,0 +1,11 @@
+fields of 13: tested entry alone + 12 opponents, k grim-likes; 500 fields per k; share of fields where the entry is 1st (median rank)
+k   quiet-awl             cross-cut             knock-twice           
+0    81% (med 1)           98% (med 1)           95% (med 1)          
+1    83% (med 1)           98% (med 1)           93% (med 1)          
+2    80% (med 1)           96% (med 1)           91% (med 1)          
+3    77% (med 1)           94% (med 1)           84% (med 1)          
+4    72% (med 1)           93% (med 1)           78% (med 1)          
+5    73% (med 1)           92% (med 1)           63% (med 1)          
+6    64% (med 1)           91% (med 1)           50% (med 1.5)        
+7    52% (med 1)           86% (med 1)           32% (med 3)          
+8    45% (med 2)           85% (med 1)           20% (med 4)          
