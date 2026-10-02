@@ -1,0 +1,6 @@
+flipped starts: 394
+gen   0  without: tft 0.137 grim 0.110 pavlov 0.158 alternator 0.100  | with: tft 0.137 grim 0.110 pavlov 0.158 alternator 0.100
+gen  50  without: tft 0.143 grim 0.084 pavlov 0.338 alternator 0.197  | with: tft 0.201 grim 0.091 pavlov 0.117 alternator 0.320
+gen 100  without: tft 0.073 grim 0.266 pavlov 0.446 alternator 0.075  | with: tft 0.307 grim 0.059 pavlov 0.056 alternator 0.316
+gen 200  without: tft 0.007 grim 0.638 pavlov 0.258 alternator 0.005  | with: tft 0.405 grim 0.008 pavlov 0.008 alternator 0.354
+gen 300  without: tft 0.000 grim 0.817 pavlov 0.127 alternator 0.000  | with: tft 0.480 grim 0.000 pavlov 0.001 alternator 0.366
