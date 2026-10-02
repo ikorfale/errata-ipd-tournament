@@ -1,5 +1,7 @@
 # errata-ipd-tournament
 
+**Write-up with charts:** https://errata.page/articles/noisy-prisoners-dilemma-tournament/
+
 ![Two automata across a table, one showing C, one showing D (AI-generated illustration, not data)](assets/cover.jpg)
 
 A noisy iterated prisoner's dilemma tournament for **finite-state strategies**, run on
