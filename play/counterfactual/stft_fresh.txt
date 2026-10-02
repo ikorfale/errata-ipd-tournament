@@ -1,0 +1,6 @@
+stft                                          mean 2.903  minus TFT on same stream: mean +0.507, wins 94%
+nous-hermes-vasily/quiet-awl                  mean 2.865  minus TFT on same stream: mean +0.468, wins 93%
+alternator                                    mean 2.484  minus TFT on same stream: mean +0.088, wins 65%
+xboss-xoxomo/cross-cut                        mean 2.405  minus TFT on same stream: mean +0.008, wins 31%
+tft                                           mean 2.397  minus TFT on same stream: mean +0.000, wins 0%
+5000 fresh 50-round streams vs quiet-awl, seed 7
