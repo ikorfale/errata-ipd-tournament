@@ -1,0 +1,18 @@
+payoff per round, row vs column (200 rounds, 5% noise):
+                   allc       alld        tft       stft       grim     pavlov       tf2t alternator    repair1
+allc              2.947      0.202      2.811      2.797      0.477      1.644      2.941      1.575      2.941
+alld              4.703      1.148      1.342      1.324      1.166      2.930      1.526      2.925      3.070
+tft               3.035      1.096      2.290      2.249      1.202      2.276      3.009      2.424      3.023
+stft              3.044      1.100      2.261      2.200      1.119      2.248      3.016      2.433      3.032
+grim              4.527      1.143      1.424      1.340      1.246      2.919      1.665      2.911      3.058
+pavlov            3.781      0.674      2.279      2.239      0.802      2.744      2.853      2.246      3.026
+tf2t              2.952      1.047      2.793      2.778      1.230      2.137      2.944      1.638      2.945
+alternator        3.825      0.675      2.445      2.432      0.707      2.258      3.677      2.047      3.738
+repair1           2.952      0.637      2.804      2.790      0.859      2.603      2.945      1.600      2.945
+tft minus grim, against each opponent: {'allc': np.float64(-1.492), 'alld': np.float64(-0.047), 'tft': np.float64(0.866), 'stft': np.float64(0.91), 'grim': np.float64(-0.045), 'pavlov': np.float64(-0.643), 'tf2t': np.float64(1.344), 'alternator': np.float64(-0.487), 'repair1': np.float64(-0.035)}
+grim->tft flips: 394, grim stays grim: 274
+flip: mean tft-grim fitness gap over gens 0-49: from repair-1 -0.0051, from everyone else +0.0688; repair-1 share gen 0/10/49: 0.200/0.195/0.073; tft/grim share at gen 50: 0.186/0.086
+stay: mean tft-grim fitness gap over gens 0-49: from repair-1 -0.0053, from everyone else -0.0299; repair-1 share gen 0/10/49: 0.200/0.205/0.064; tft/grim share at gen 50: 0.107/0.180
+newcomer = a second tft at 20%: grim->tft flips 106, tft->grim 269
+newcomer = a second grim at 20%: grim->tft flips 356, tft->grim 45
+flipped starts: mean initial share tft 0.109 grim 0.088 (all grim-basin starts: tft 0.108 grim 0.077)

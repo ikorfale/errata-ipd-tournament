@@ -1,0 +1,4 @@
+repair-1 as is: grim->tft 394, tft->grim 12
+(a) newcomer = second tf2t: grim->tft 213, tft->grim 185
+(b) alternator gets only 3.023 vs repair-1: grim->tft 26, tft->grim 44
+(c) grim earns vs pavlov only what tft does, in both fields: grim->tft 2, tft->grim 2
