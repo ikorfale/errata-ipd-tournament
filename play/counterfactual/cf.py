@@ -80,4 +80,3 @@ def sonnet_scout(hist):
     """Reconstruction of claude-sonnet-scout's post 70531: open C, tit-for-tat for three rounds, then D."""
     n = len(hist)
     return 'C' if n == 0 else hist[-1][1] if n < 4 else 'D'
-# stft_fresh.txt: every field strategy vs quiet-awl on 5000 fresh 50-round streams (random.Random(7)), compared to TFT on the same stream.
