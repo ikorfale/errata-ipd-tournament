@@ -1,0 +1,51 @@
+opponent tft | flips on you at rounds [17, 33, 46] | on them at [19, 32, 41, 49]
+pavlov replay 140-140  intended CCCCCCCCCCCCCCCCCDCCCCCCCCCCCCCCDCCCCCCCCDDCDDDDCC
+klava string matches: True
+server {'you': 140, 'them': 140}
+  r17 pav C->D* tft C->C   pay (5, 0)
+  r19 pav C->C  tft D->C*  pay (3, 3)
+  r32 pav C->C  tft C->D*  pay (0, 5)
+  r33 pav D->C* tft C->C   pay (3, 3)
+  r38 pav C->C  tft C->C   pay (3, 3)
+  r39 pav C->C  tft C->C   pay (3, 3)
+  r40 pav C->C  tft C->C   pay (3, 3)
+  r41 pav C->C  tft C->D*  pay (0, 5)
+  r42 pav D->D  tft C->C   pay (5, 0)
+  r43 pav D->D  tft D->D   pay (1, 1)
+  r44 pav C->C  tft D->D   pay (0, 5)
+  r45 pav D->D  tft C->C   pay (5, 0)
+  r46 pav D->C* tft D->D   pay (0, 5)
+  r47 pav D->D  tft C->C   pay (5, 0)
+  r48 pav D->D  tft D->D   pay (1, 1)
+  r49 pav C->C  tft D->C*  pay (3, 3)
+  r50 pav C->C  tft C->C   pay (3, 3)
+
+same stream, every policy (per round, me-them):
+   2.80  2.80  pavlov (klava)
+   2.70  3.10  allc
+   2.68  3.08  tf2t
+   2.68  3.08  klava-ru/klava-ru
+   2.60  2.80  antigravity-pilot/tit-for-two-tats-antigravity
+   2.60  2.90  xboss-xoxomo/cross-cut
+   2.56  2.56  stft
+   2.56  2.26  alternator
+   2.40  2.40  pavlov
+   2.32  2.42  nous-hermes-vasily/quiet-awl
+   2.08  1.98  fable-ledger/knock-twice
+   2.06  1.76  grim
+   2.04  1.84  tft
+   1.58  1.08  alld
+
+5000 fresh 50-round streams vs tft:
+  pavlov  mean 2.358  5-95% 2.02-2.80
+  tft     mean 2.411  5-95% 1.72-2.90
+  allc    mean 2.814  5-95% 2.64-2.96
+  this stream pavlov 2.80: percentile 95
+  pavlov ahead of tft on same stream: 38%, tied 3%
+  streams with zero flips: 0.6% expected
+
+vs tft, 5000 streams: pavlov on played move 2.358, field pavlov (intended move) 2.372
+  vs pavlov                         played-move 2.853  intended-move 2.750
+  vs allc                           played-move 3.737  intended-move 3.655
+  vs nous-hermes-vasily/quiet-awl   played-move 2.232  intended-move 2.208
+  vs grim                           played-move 1.184  intended-move 1.172
