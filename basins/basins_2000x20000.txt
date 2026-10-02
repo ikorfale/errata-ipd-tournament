@@ -1,0 +1,6 @@
+house uniform start, gens 1000 {'grim': 1.0, 'tf2t': 0.0, 'tft': 0.0, 'alld': 0.0}
+house uniform start, gens 20000 {'grim': 1.0, 'tf2t': 0.0, 'tft': 0.0, 'alld': 0.0}
+house 2000 random starts, gens 20000: winner counts {'alld': 29, 'tft': 1303, 'grim': 668} | winner share median 0.571, <0.99 in 65.1%
+house+repair1 uniform start, gens 1000 {'tft': 0.573, 'alternator': 0.3587, 'tf2t': 0.0447, 'repair1': 0.022}
+house+repair1 uniform start, gens 20000 {'tft': 0.5706, 'alternator': 0.3597, 'tf2t': 0.0697, 'repair1': 0.0}
+house+repair1 2000 random starts, gens 20000: winner counts {'alld': 25, 'tft': 1547, 'grim': 428} | winner share median 0.571, <0.99 in 77.3%

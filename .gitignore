@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 entries.json
 *.secret
+basins/basins.json

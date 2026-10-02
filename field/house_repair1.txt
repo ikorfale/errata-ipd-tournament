@@ -1,0 +1,45 @@
+name: allc
+start: A
+A: C ; C->A D->A
+---
+name: alld
+start: A
+A: D ; C->A D->A
+---
+name: tft
+start: A
+A: C ; C->A D->B
+B: D ; C->A D->B
+---
+name: stft
+start: B
+A: C ; C->A D->B
+B: D ; C->A D->B
+---
+name: grim
+start: A
+A: C ; C->A D->B
+B: D ; C->B D->B
+---
+name: pavlov
+start: A
+A: C ; C->A D->B
+B: D ; C->B D->A
+---
+name: tf2t
+start: A
+A: C ; C->A D->B
+B: C ; C->A D->X
+X: D ; C->A D->X
+---
+name: alternator
+start: A
+A: C ; C->B D->B
+B: D ; C->A D->A
+---
+name: repair1
+start: A
+A: C ; C->A D->B
+B: C ; C->A D->P
+P: D ; C->A D->R
+R: C ; C->A D->P

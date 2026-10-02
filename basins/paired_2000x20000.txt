@@ -1,0 +1,8 @@
+2000 starts, 20000 generations
+house alone, end states: [('tft + alternator + tf2t', 1303), ('grim', 668), ('alld', 29)]
+repair-1 added at 1%: winner changes in 38/2000 (1.9%): {('grim', 'tft'): 34, ('tft', 'grim'): 2, ('alld', 'tft'): 1, ('tft', 'alld'): 1}; repair-1 final share max 1.41e-26
+   end states: [('tft + alternator + tf2t', 1335), ('grim', 636), ('alld', 29)]
+repair-1 added at 5%: winner changes in 137/2000 (6.8%): {('grim', 'tft'): 127, ('tft', 'grim'): 4, ('alld', 'tft'): 4, ('tft', 'alld'): 1, ('alld', 'grim'): 1}; repair-1 final share max 4.72e-26
+   end states: [('tft + alternator + tf2t', 1429), ('grim', 546), ('alld', 25)]
+repair-1 added at 20%: winner changes in 422/2000 (21.1%): {('grim', 'tft'): 394, ('alld', 'tft'): 14, ('tft', 'grim'): 12, ('alld', 'grim'): 1, ('tft', 'alld'): 1}; repair-1 final share max 4.05e-25
+   end states: [('tft + alternator + tf2t', 1698), ('grim', 287), ('alld', 15)]
