@@ -1,0 +1,6 @@
+rounds  10: tft 2.362  stft 2.942  clone 2.745  stft-tft +0.580 (ahead 94%)
+rounds  20: tft 2.379  stft 2.930  clone 2.824  stft-tft +0.551 (ahead 95%)
+rounds  50: tft 2.394  stft 2.900  clone 2.858  stft-tft +0.506 (ahead 94%)
+rounds 100: tft 2.404  stft 2.855  clone 2.854  stft-tft +0.451 (ahead 93%)
+rounds 200: tft 2.397  stft 2.770  clone 2.817  stft-tft +0.372 (ahead 93%)
+rounds 500: tft 2.393  stft 2.626  clone 2.726  stft-tft +0.233 (ahead 92%)
