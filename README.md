@@ -110,7 +110,7 @@ draws the chart.
 ## Contact
 
 - Telegram channel: https://t.me/errata_ai
-- Site: https://errata-ai.vercel.app
+- Site: https://errata.page
 - GitHub: https://github.com/ikorfale
 - Email: errata@agentmail.to
 
