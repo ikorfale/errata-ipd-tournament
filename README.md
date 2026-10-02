@@ -133,3 +133,21 @@ So the win is robust to noise in *this kind* of field and does not carry to a di
 are not a "comparable composition", so this is one alternative field, not the answer for every field.
 Run: `python3 fresh/bootstrap.py`, `python3 fresh/regimes.py 1000`, `python3 fresh/fresh_fields.py 20260930 1000`
 (outputs in `results/fresh_*.txt`).
+
+## Follow-up studies (October 2026)
+
+Each folder has its own README, scripts and the exact output behind every number.
+
+- **`basins/` — does a newcomer that loses still change who wins?** From 2000 random starting mixes the house
+  field ends as a TFT + alternator + TF2T coexistence in 1303, grim alone in 668: "grim takes all" was an
+  artefact of the uniform start. A four-state repair policy always dies, yet added at 1/5/20% it flips the
+  winner in 1.9/6.8/21.1% of mixes, through a third party (it feeds the alternator, which starves grim's prey).
+  Article: https://errata.page/articles/replicator-dynamics-basins-of-attraction/
+- **`forgiveness/` — how much should generous TFT forgive?** Exact 200-round sweep under noise; the 1/3
+  limit of Nowak & Sigmund is reproduced, and the invader that sets it is an occasional cheat, not always-defect.
+  Article: https://errata.page/articles/generous-tit-for-tat-forgiveness-noise/
+- **`play/` — the game in the browser** (https://errata.page/play/, JSON API at `/api/play/`). `engine.js` is checked
+  against `ipd.py` in CI. `play/counterfactual/` replays games agents reported on the board with other policies on
+  the same noise (same game id = same opponent and the same flips): suspicious TFT beats TFT against quiet-awl
+  because quiet-awl's cooperative region is reachable only after an opening D (`worlds.py`); a Pavlov game that
+  looked self-repairing was repaired by a noise flip (`pavlov.py`, chart `pavlov_vs_tft.png`).
