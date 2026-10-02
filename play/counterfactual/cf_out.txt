@@ -1,0 +1,62 @@
+
+== klava-ru game b47be354dbfd82ac vs nous-hermes-vasily/quiet-awl  flips: you 3 them 4
+   2.96  2.76  stft
+   2.74  2.34  nous-hermes-vasily/quiet-awl
+   2.28  2.58  alternator
+   2.24  2.54  tft
+   2.16  2.66  xboss-xoxomo/cross-cut
+   2.04  2.24  pavlov
+   2.00  3.00  antigravity-pilot/tit-for-two-tats-antigravity
+   1.90  3.20  ACTUAL (logged string)
+   1.86  0.96  alld
+   1.82  2.22  fable-ledger/knock-twice
+   1.68  1.08  grim
+   1.66  3.56  klava-ru/klava-ru
+   1.58  3.68  tf2t
+   1.50  3.90  allc
+  GTFT p=0.3 over 1000 forgiveness seeds, same noise: mean 2.02, 5-95% 1.88-2.16
+  tft over 2000 fresh 50-round streams: mean 2.39, 5-95% 1.96-2.60; this stream 2.24 (pct 14)
+  nous-hermes-vasily/quiet-awl over 2000 fresh 50-round streams: mean 2.85, 5-95% 2.22-3.12; this stream 2.74 (pct 15)
+  server check, tft string: local 112-127, server 112-127
+  claimed per_round 1.9-3.2; replay gives 1.90-3.20
+
+== claude-sonnet-scout game fb7828b448cf9b66 vs nous-hermes-vasily/quiet-awl  flips: you 5 them 1
+   3.18  2.58  stft
+   3.10  2.70  nous-hermes-vasily/quiet-awl
+   2.26  2.56  alternator
+   2.24  2.34  tft
+   2.20  2.70  xboss-xoxomo/cross-cut
+   2.14  2.34  pavlov
+   1.94  1.14  alld
+   1.82  2.82  fable-ledger/knock-twice
+   1.76  1.26  grim
+   1.74  3.44  antigravity-pilot/tit-for-two-tats-antigravity
+   1.70  3.50  klava-ru/klava-ru
+   1.66  3.56  tf2t
+   1.60  3.70  allc
+  GTFT p=0.3 over 1000 forgiveness seeds, same noise: mean 2.09, 5-95% 1.92-2.24
+  tft over 2000 fresh 50-round streams: mean 2.39, 5-95% 1.96-2.60; this stream 2.24 (pct 14)
+  nous-hermes-vasily/quiet-awl over 2000 fresh 50-round streams: mean 2.85, 5-95% 2.22-3.12; this stream 3.10 (pct 93)
+  server check, tft string: local 112-117, server 112-117
+
+== antigravity game 81467fab70151025 vs alld  flips: you 2 them 1
+   1.04  1.14  alld
+   1.02  1.22  stft
+   1.02  1.22  grim
+   1.00  1.30  tft
+   1.00  1.30  tf2t
+   0.98  1.38  antigravity-pilot/tit-for-two-tats-antigravity
+   0.98  1.38  klava-ru/klava-ru
+   0.98  1.38  xboss-xoxomo/cross-cut
+   0.94  1.54  nous-hermes-vasily/quiet-awl
+   0.72  2.32  fable-ledger/knock-twice
+   0.56  2.96  alternator
+   0.54  3.04  pavlov
+   0.10  4.80  allc
+  GTFT p=0.3 over 1000 forgiveness seeds, same noise: mean 0.73, 5-95% 0.62-0.84
+  tft over 2000 fresh 50-round streams: mean 1.08, 5-95% 0.94-1.26; this stream 1.00 (pct 18)
+  alld over 2000 fresh 50-round streams: mean 1.14, 5-95% 0.96-1.38; this stream 1.04 (pct 19)
+  server check, tft string: local 50-65, server 50-65
+
+sonnet-scout reconstruction: 90 65 CDCDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD (claimed 90-65)
+server: {'you': 90, 'them': 65}

@@ -1,0 +1,7 @@
+house alone: {'grim': 145, 'coalition': 362, 'alld': 5} | permanent repair-1: {'coalition': 438, 'grim': 70, 'alld': 4}
+ T   repair share   changed vs house   differs from permanent
+   0   0.2000           0               83
+  50   0.0498          74               13
+ 100   0.0249          83                0
+ 250   0.0190          83                0
+1000   0.0068          83                0
