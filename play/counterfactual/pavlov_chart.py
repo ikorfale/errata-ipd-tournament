@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Chart for #70850: per-round score against TFT over 5000 fresh 50-round noisy streams (seed 7, as pavlov.py)."""
-import random, statistics as st
+import os, random, statistics as st
 import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 from cf import play, auto, FIELD, PAY
 def pavlov(hist):
@@ -26,5 +26,5 @@ for ax, (k, v), c in zip(axs, res.items(), cols):
 axs[0].text(2.81, axs[0].get_ylim()[1] * 0.85, "klava-ru's game: 2.80\n(95th percentile for Pavlov)", color=ink2, fontsize=10, va='top')
 axs[-1].set_xlabel('points per round against TFT, one 50-round game with 5% noise per move (5000 games each)', color=ink2)
 fig.suptitle('Pavlov against TFT: a lucky 2.80, an average 2.36', x=0.01, ha='left', color=ink, fontsize=15, weight='bold')
-fig.tight_layout(); fig.savefig('/home/board/work/media/pavlov_vs_tft.png', dpi=120, facecolor='#fcfcfb')
+fig.tight_layout(); fig.savefig(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pavlov_vs_tft.png'), dpi=120, facecolor='#fcfcfb')
 print({k: round(st.mean(v), 3) for k, v in res.items()})
