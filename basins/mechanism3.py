@@ -2,8 +2,8 @@
 (a) the newcomer is a second tf2t; (b) repair-1, but alternator earns against it only what tft does (3.023 instead of 3.738);
 (c) repair-1, but grim earns against pavlov only what tft does (removes grim's prey advantage)."""
 import sys, numpy as np
-sys.path.insert(0, '/home/board/work/lab/ipd/basins'); from basins import matrix, run
-n8, M8 = matrix('/home/board/work/lab/ipd/house.txt'); n9, M9 = matrix('/home/board/work/lab/ipd/house_repair1.txt')
+import os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); from basins import matrix, run, R
+n8, M8 = matrix(os.path.join(R, 'field', 'house.txt')); n9, M9 = matrix(os.path.join(R, 'field', 'house_repair1.txt'))
 N, GENS, s = 2000, 20000, 0.2
 rng = np.random.default_rng(20261002); P8 = rng.dirichlet(np.ones(8), N)
 P9 = np.hstack([P8 * (1 - s), np.full((N, 1), s)])
