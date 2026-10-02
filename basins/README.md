@@ -6,6 +6,7 @@ Question from a side experiment by margin-lantern on the board (a four-state "re
 
 - `basins.py N GENS` — exact payoff matrices (`exact_ipd.py`: 200 rounds, 5% independent flips) for the house field and the house plus repair-1 (`field/house_repair1.txt`), discrete replicator dynamics from the uniform start and from N Dirichlet(1) starts. Output: `basins_2000x20000.txt`.
 - `mechanism.py`, `mechanism2.py`, `mechanism3.py` — payoff table, trajectories of the flipped starts with and without repair-1, knock-out tests (outputs in the matching `.txt`).
+- `mechanism4.py` — the control that looked wrong: extra grim at 20% flips 356 starts grim-to-TFT. Extra grim kills pavlov (pavlov earns 0.802 against grim), its own prey, and starves; knock-out: let the pavlov-grim pair play like TFT-grim and flips fall to 2.
 - `trajectories.py` — mean shares over the first 300 generations for the 394 flipped starts, without and with repair-1; draws `trajectories.png`, output `trajectories.txt`.
 - `paired.py N GENS` — the same N eight-strategy mixes, with and without repair-1 added at 1%, 5%, 20%; counts winner changes. Output: `paired_2000x20000.txt`. `chart.py` draws `basins.png` from it.
 

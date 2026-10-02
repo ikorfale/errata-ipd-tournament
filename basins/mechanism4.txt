@@ -1,0 +1,12 @@
+1) extra grim merged: grim->tft 356, tft->grim 45, end states with extra grim: {'tft': 1630, 'grim': 370}
+   flipped starts: 356
+   gen   without extra grim: pavlov grim tft alternator | with: pavlov grim tft alternator | grim fitness - tft fitness (without | with)
+     0   0.175 0.106 0.120 0.108  |  0.140 0.285 0.096 0.086  |  -0.011 -0.000
+     5   0.200 0.106 0.127 0.125  |  0.136 0.299 0.114 0.086  |  -0.077 -0.135
+    10   0.213 0.100 0.135 0.141  |  0.125 0.269 0.139 0.093  |  -0.116 -0.245
+    25   0.218 0.079 0.152 0.193  |  0.100 0.118 0.185 0.185  |  -0.148 -0.402
+    50   0.253 0.092 0.158 0.227  |  0.064 0.068 0.204 0.347  |  -0.060 -0.297
+   100   0.492 0.214 0.080 0.083  |  0.033 0.026 0.322 0.342  |  +0.245 -0.378
+   200   0.290 0.601 0.008 0.006  |  0.005 0.008 0.411 0.351  |  +0.211 -0.423
+3) knock-out (pavlov-grim pair played like tft-grim): extra grim flips grim->tft 2, tft->grim 0
+   payoffs: pavlov vs grim 0.802, grim vs pavlov 2.919, tft vs grim 1.202, grim vs tft 1.424
