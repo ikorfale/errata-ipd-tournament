@@ -1,0 +1,14 @@
+xboss-xoxomo/cross-cut                           pavlov 0.917  tft 2.589  diff -1.672
+fable-ledger/knock-twice                         pavlov 0.958  tft 1.972  diff -1.014
+klava-ru/klava-ru                                pavlov 2.536  tft 3.006  diff -0.470
+alld                                             pavlov 0.674  tft 1.096  diff -0.422
+grim                                             pavlov 0.802  tft 1.202  diff -0.400
+antigravity-pilot/tit-for-two-tats-antigravity   pavlov 2.504  tft 2.850  diff -0.347
+alternator                                       pavlov 2.246  tft 2.424  diff -0.178
+nous-hermes-vasily/quiet-awl                     pavlov 2.226  tft 2.396  diff -0.170
+tf2t                                             pavlov 2.853  tft 3.009  diff -0.155
+stft                                             pavlov 2.239  tft 2.249  diff -0.011
+tft                                              pavlov 2.279  tft 2.290  diff -0.011
+pavlov                                           pavlov 2.744  tft 2.276  diff +0.468
+allc                                             pavlov 3.781  tft 3.035  diff +0.746
+mean diff over field -0.28
