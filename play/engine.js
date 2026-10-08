@@ -62,6 +62,17 @@
              next: strat.states[s][1][mh] };
   }
 
-  const api = { PAY, parse, load, match, step, mulberry32 };
+  // Experiment arm of a browser game, from its seed on a second stream (the game's own stream is untouched,
+  // so opponent and noise are the same as before). 'shown': 50 rounds, the page says "Round k of 50".
+  // 'hidden': the page says only "Round k"; the game stops after round 20 + a geometric number of rounds
+  // with mean 30 (constant stop chance 1/30 per round from round 21, mean length 50, capped at 200).
+  function arm(seed) {
+    const r = mulberry32((seed ^ 0x9E3779B9) >>> 0);
+    if (r.random() < 0.5) return { arm: 'shown', rounds: 50 };
+    let n = 20; do { n++; } while (n < 200 && r.random() >= 1 / 30);
+    return { arm: 'hidden', rounds: n };
+  }
+
+  const api = { PAY, parse, load, match, step, mulberry32, arm };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.IPD = api;
 })(this);
