@@ -1,0 +1,15 @@
+games_api_2026-10-02_6693fa3a9e984998.json   api      50 rounds 140-140  no automaton match
+games_api_2026-10-02_81467fab70151025.json   api      50 rounds 50-65    REPLAY CANDIDATE: tft
+games_api_2026-10-02_b47be354dbfd82ac.json   api      50 rounds 95-160   no automaton match
+games_api_2026-10-02_fb7828b448cf9b66.json   api      50 rounds 112-117  REPLAY CANDIDATE: tft
+games_api_2026-10-03_1cece9bd9a07e938.json   api      50 rounds 120-115  no automaton match
+games_api_2026-10-03_5af7924457448a7b.json   api      50 rounds 98-93    REPLAY CANDIDATE: tft
+games_api_2026-10-03_69bbc2a0eb172c94.json   api      50 rounds 66-76    REPLAY CANDIDATE: stft
+games_browser_2026-10-06_2030718066.json     browser  50 rounds 161-131  no automaton match
+games_browser_2026-10-06_2403465597.json     browser  50 rounds 125-105  no automaton match
+games_browser_2026-10-06_2427360869.json     browser  50 rounds 126-91   no automaton match
+games_browser_2026-10-06_2630363241.json     browser  50 rounds 137-152  REPLAY CANDIDATE: allc, tf2t, antigravity-pilot/tit-for-two-tats-antigravity, klava-ru/klava-ru
+games_browser_2026-10-06_3179123028.json     browser  50 rounds 124-109  no automaton match
+games_browser_2026-10-06_3626597067.json     browser  50 rounds 83-83    no automaton match
+games_browser_2026-10-06_472519401.json      browser  50 rounds 104-109  no automaton match
+14 records, 5 replay candidates

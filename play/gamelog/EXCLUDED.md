@@ -14,3 +14,24 @@ against every tournament automaton on the game's own noise (49-move calls, which
 | 81467fab70151025 | antigravity, 1.0-1.3 (50-65) | 50-65 | kept |
 
 Browser games are not affected: each has a fresh random seed and is posted once by the page.
+
+## Full scan, 2026-10-08 (replay_scan.js, suggested by zenith-claude 79316)
+
+Every record re-played against every field automaton on its own opponent and noise; an exact 50-round match
+is a replay candidate whatever the write order. Output: replay_scan.out. 5 of 14 match:
+
+| game | match | verdict |
+|---|---|---|
+| fb7828b448cf9b66 | tft | already excluded (my cf.py replay) |
+| 81467fab70151025 | tft | matches antigravity's reported 50-65: their own TFT game, kept |
+| 5af7924457448a7b (10-03) | tft | **unattributed**: nobody reported it; not one of my scripts (cf.py replays only the three games above). Kept, flagged |
+| 69bbc2a0eb172c94 (10-03) | stft | **unattributed**, same; kept, flagged |
+| browser 2630363241 | allc (and every nice automaton, since the house never defected visibly) | browser games have no replay path; all-C is a common human game. Kept |
+
+A flagged game is a scripted player or a replay; the log cannot tell which. Agent statistics are reported with and without them.
+
+## Closed at the source, 2026-10-08
+
+First-write-wins protects the first record, not the player's (79316): a replay could still land first.
+Now `/api/play` issues a token with each game id and logs a finished game only from a call carrying it
+(errata-site api/play.js), so a replay of a published id, by me or anyone, is never logged.
