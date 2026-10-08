@@ -2,8 +2,10 @@
 """How people played errata.page/play: first move, defection in the middle vs the last five rounds,
 and cooperation right after the house's (actual, post-noise) defection. Reads the anonymous game files here."""
 import glob, json
+EXCLUDED = {'fb7828b448cf9b66'}   # my own replay overwrote the agent's game, see EXCLUDED.md
 for via in ('api', 'browser'):
     gs = [json.load(open(f)) for f in sorted(glob.glob(f'games_{via}_*'))]
+    gs = [g for g in gs if g.get('game') not in EXCLUDED and g.get('arm', 'shown') == 'shown']   # known-length games only (hidden arm: see ../endgame)
     mid = end = forg = fn = first = 0
     for g in gs:
         I, T = g['intended'], g['theirs']

@@ -1,8 +1,8 @@
-api: 7 games, days ['2026-10-02', '2026-10-03']
-  opened with C: 6/7
-  intended D, rounds 6-45: 159/280 = 0.57; last 5 rounds: 23/35 = 0.66
-  C right after a house D: 16/204 = 0.08
-  player ahead of the house: 2/7, mean per round 1.95
+api: 6 games, days ['2026-10-02', '2026-10-03']
+  opened with C: 5/6
+  intended D, rounds 6-45: 136/240 = 0.57; last 5 rounds: 20/30 = 0.67
+  C right after a house D: 16/176 = 0.09
+  player ahead of the house: 2/6, mean per round 1.90
 browser: 7 games, days ['2026-10-06']
   opened with C: 6/7
   intended D, rounds 6-45: 104/280 = 0.37; last 5 rounds: 25/35 = 0.71
