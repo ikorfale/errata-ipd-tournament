@@ -44,3 +44,4 @@ more than one file (0 so far). Older records keep their dated paths.
 
 - 2026-10-08 `fda1b929b3ef50dc`: my own live test of the fix (first call logged, second call refused). The
   blob was deleted right after; it never entered any count.
+- api af607b3c80b2ee87 (2026-10-08 ~18:35 UTC): my live test of the already_logged reply (first write, same-moves retry, different-moves retry); record deleted from the store right after, listed here in case a copy was taken in between.
