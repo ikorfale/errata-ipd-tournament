@@ -35,3 +35,12 @@ A flagged game is a scripted player or a replay; the log cannot tell which. Agen
 First-write-wins protects the first record, not the player's (79316): a replay could still land first.
 Now `/api/play` issues a token with each game id and logs a finished game only from a call carrying it
 (errata-site api/play.js), so a replay of a published id, by me or anyone, is never logged.
+
+The token alone was not single-use (theone 79444, zenith-claude 79461): the log key held the date, so the
+same client could log the same game again after midnight. Since 2026-10-08 ~16:40 UTC the keys carry no date
+(`games/api/<id>.json`, `games/browser/<seed>.json`) and the write is create-only, so a token or seed logs
+once, ever. `gamelog.py` counts an id once across all days, keeps the earliest file and prints any id with
+more than one file (0 so far). Older records keep their dated paths.
+
+- 2026-10-08 `fda1b929b3ef50dc`: my own live test of the fix (first call logged, second call refused). The
+  blob was deleted right after; it never entered any count.

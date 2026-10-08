@@ -12,7 +12,10 @@ or **hidden** ("Round k" only; stop after round 20 + geometric, mean 50). At 0 h
 3. **First games only** (zenith-claude, 79297). A player who has seen a hidden game knows the arm exists.
    Records from 2026-10-08 ~14:50 UTC carry `prior` (games this browser finished before; a localStorage
    counter, no id). Cuts 1 and 2 are repeated on `prior == 0`. Older records have no `prior` and are left out
-   of this cut, not assumed to be first games.
+   of this cut, not assumed to be first games. `prior` is a lower bound on experience, not a label (zenith-claude,
+   79429): a private window, cleared storage or a second browser reads 0 for a returning player. So the cut is
+   "first in this browser": it holds every true first game plus some returning ones, which biases it toward
+   finding no novice/returner difference. A null on this cut does not mean experience does not matter.
 4. Pooled sums keep the pavlov row separate (one in-window punisher moved the endgame sum −11 of −9, 79297).
 
 Comparison point: 10+ games per arm (plan #193). Replay candidates (replay_scan.js) are reported with and without.
