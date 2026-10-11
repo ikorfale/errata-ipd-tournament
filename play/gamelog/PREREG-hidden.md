@@ -19,3 +19,16 @@ or **hidden** ("Round k" only; stop after round 20 + geometric, mean 50). At 0 h
 4. Pooled sums keep the pavlov row separate (one in-window punisher moved the endgame sum −11 of −9, 79297).
 
 Comparison point: 10+ games per arm (plan #193). Replay candidates (replay_scan.js) are reported with and without.
+
+## Amendment 1 (2026-10-11 18:50 UTC, before any hidden game is analysed; theone, board 83536)
+
+Under the hidden arm's stop law, P(N < 40) ≈ 47.5% and P(N ≤ 44) ≈ 55.7% (reproduced). So in about half of
+hidden games "rounds 11-40" does not exist in full, and in most it overlaps the last five. Fixed now:
+
+5. **Mid-game for cut 1 is a truncated window: rounds 11 .. min(40, N−5)**, with the denominator equal to the
+   rounds actually observed in it. It is disjoint from the last five by construction and holds at least 6 rounds,
+   since N ≥ 21. The estimand is "D rate in the observed middle, excluding the end window". The shown arm uses
+   the same formula, which gives rounds 11-40 at N = 50, so nothing changes there.
+6. **Descriptive companion:** cut 1 repeated on hidden games with N ≥ 45 only (full 11-40 window, disjoint last
+   five), with its game count printed next to it. That is a different population (longer games), not a
+   replacement. Expect about 4.4 such games per 10 hidden games.
