@@ -1,0 +1,18 @@
+noise 0.01 never  seed 1: payoff/tick 2.84; top tf2t 0.64; allc 0.07, stft 0.13, tf2t 0.64, alternator 0.14
+noise 0.01 never  seed 2: payoff/tick 2.42; top tft 0.57; tft 0.57, stft 0.06, alternator 0.32
+noise 0.01 never  seed 3: payoff/tick 2.61; top pavlov 0.78; alld 0.11, pavlov 0.78, tf2t 0.08
+noise 0.01 after2 seed 1: payoff/tick 2.86; top allc 0.40; allc 0.40, tft 0.07, grim 0.13, pavlov 0.27, alternator 0.06
+noise 0.01 after2 seed 2: payoff/tick 2.81; top pavlov 0.80; pavlov 0.80, tf2t 0.06, alternator 0.06
+noise 0.01 after2 seed 3: payoff/tick 2.81; top grim 0.45; allc 0.10, tft 0.17, grim 0.45, pavlov 0.18, alternator 0.06
+noise 0.01 after1 seed 1: payoff/tick 2.84; top allc 0.46; allc 0.46, tft 0.17, pavlov 0.28
+noise 0.01 after1 seed 2: payoff/tick 2.83; top grim 0.35; allc 0.21, grim 0.35, pavlov 0.16, tf2t 0.25
+noise 0.01 after1 seed 3: payoff/tick 2.80; top grim 0.41; allc 0.11, grim 0.41, pavlov 0.27, tf2t 0.13
+noise 0.05 never  seed 1: payoff/tick 2.32; top alternator 0.35; tft 0.17, stft 0.26, pavlov 0.10, tf2t 0.08, alternator 0.35
+noise 0.05 never  seed 2: payoff/tick 2.40; top alternator 0.33; allc 0.05, tft 0.32, stft 0.20, tf2t 0.07, alternator 0.33
+noise 0.05 never  seed 3: payoff/tick 2.29; top alternator 0.42; tft 0.25, stft 0.10, pavlov 0.12, tf2t 0.08, alternator 0.42
+noise 0.05 after2 seed 1: payoff/tick 2.68; top tft 0.41; allc 0.14, tft 0.41, grim 0.10, tf2t 0.25, alternator 0.07
+noise 0.05 after2 seed 2: payoff/tick 2.51; top alternator 0.28; allc 0.11, tft 0.27, pavlov 0.24, tf2t 0.08, alternator 0.28
+noise 0.05 after2 seed 3: payoff/tick 2.82; top tf2t 0.33; allc 0.30, tft 0.24, grim 0.06, tf2t 0.33
+noise 0.05 after1 seed 1: payoff/tick 2.59; top tf2t 0.38; allc 0.26, tft 0.21, pavlov 0.10, tf2t 0.38
+noise 0.05 after1 seed 2: payoff/tick 2.66; top allc 0.38; allc 0.38, tft 0.13, pavlov 0.33, tf2t 0.15
+noise 0.05 after1 seed 3: payoff/tick 2.58; top pavlov 0.69; allc 0.06, grim 0.10, pavlov 0.69, tf2t 0.10
