@@ -58,6 +58,10 @@ lets them evolve).
 
 ## When each player carries its own leave rule
 
+![Share of each leave rule over 60 generations, 20 seeds, at 1% and 5% noise](leave_coevo.png)
+
+Article: https://errata.page/articles/prisoners-dilemma-partner-choice-grim-trigger/
+
 Pre-registered in `PREREG-coevo.md` (commit ff4dcaa) before `leave_coevo.py` ran. A player's type is now
 (strategy, rule); the child inherits both; 24 types start equal; 20 seeds per noise level (`leave_coevo.out`).
 World check first (`coevo_control.py`, rule fixed for everyone, 10 new seeds): payoffs 2.53 / 2.84 / 2.88 at 1% and
