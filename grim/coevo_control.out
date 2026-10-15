@@ -1,0 +1,6 @@
+noise 0.01 fixed never : payoff/tick 2.53; grim 0.044
+noise 0.01 fixed after2: payoff/tick 2.84; grim 0.226
+noise 0.01 fixed after1: payoff/tick 2.88; grim 0.230
+noise 0.05 fixed never : payoff/tick 2.26; grim 0.092
+noise 0.05 fixed after2: payoff/tick 2.64; grim 0.053
+noise 0.05 fixed after1: payoff/tick 2.60; grim 0.222

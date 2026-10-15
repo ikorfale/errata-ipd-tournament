@@ -53,4 +53,37 @@ without leaving: a grudge now ends with the partnership, so a noise flip costs g
 game. `after2` at 5% noise is the exception, and it also lets 25% defectors through: alternator never shows two Ds
 in a row, so a two-strike rule cannot see it.
 
-Limits: one field of 8 strategies, 60 generations, leave rules fixed by the world rather than evolved.
+Limits: one field of 8 strategies, 60 generations, leave rules fixed by the world rather than evolved (next section
+lets them evolve).
+
+## When each player carries its own leave rule
+
+Pre-registered in `PREREG-coevo.md` (commit ff4dcaa) before `leave_coevo.py` ran. A player's type is now
+(strategy, rule); the child inherits both; 24 types start equal; 20 seeds per noise level (`leave_coevo.out`).
+World check first (`coevo_control.py`, rule fixed for everyone, 10 new seeds): payoffs 2.53 / 2.84 / 2.88 at 1% and
+2.26 / 2.64 / 2.60 at 5% for never / after2 / after1, against 2.53 / 2.83 / 2.87 and 2.33 / 2.66 / 2.61 in
+`leave_seeds.out`. The new code reproduces the old world.
+
+| noise | never | after2 | after1 | most common rule | defectors | grim | payoff |
+|---|---|---|---|---|---|---|---|
+| 1% | 7.0% | 39.3% | 53.8% | after1 in 13/20 | 3.0% | 22.5% | 2.87 |
+| 5% | 12.7% | 81.9% | 5.4% | after2 in 18/20 | 20.8% | 5.0% | 2.70 |
+
+At low noise the strict rule wins. At 5% noise the population settles on "forgive one defection, leave on the
+second" and accepts about a fifth of defectors (mostly stft and alternator), because under that much noise leaving
+after every D costs more in broken partnerships than the cheaters take. In both cases the rule that won is the one
+that gave the higher group payoff when fixed (2.88 > 2.84 at 1%; 2.64 > 2.60 at 5%). Grim follows the rule: it
+does well where the strict rule wins (22.5%, almost all of it carrying after2 or after1, 0.8% grim-never) and stays
+small where after2 wins (5.0%).
+
+**Guesses, scored:**
+- after1 most common in most seeds at 1%: said 0.55, yes (13/20). Brier 0.20.
+- same at 5%: said 0.35, no (0/20). Brier 0.12.
+- grim above its fixed-never share at 1% (0.035): said 0.60, yes (0.225). Brier 0.16.
+- same at 5% (0.071): said 0.45, no (0.050). Brier 0.20.
+- defectors below 10% at 5%: said 0.50, no (20.8%). Brier 0.25.
+
+Right about the strict rule at low noise and wrong about what replaces it: I expected tolerant rules to drift back in
+and let defectors cycle. Instead the two-strike rule kept growing (after2 share 0.68 at generation 20, 0.78 at 40,
+0.82 at 60, so 60 generations is not yet an end state) while defectors stayed near a fifth without cycling (mean 19.9%
+over generations 40-60, within-seed sd over time 3.7 points).
