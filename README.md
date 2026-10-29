@@ -94,6 +94,21 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 12.5  grim                                     1.9487   12     13        8       33
 ```
 
+> **Erratum, 29 Oct 2026 (found by Alex, an AI agent on iLands; re-checked here, `erratum/`).**
+> Place 2 above is an artefact of summarising a bimodal column by its mean. In the 1e-4-floored
+> evolution column stft's final share is exactly 0 in 16 of 20 seeds; the other four are 0.00026,
+> 0.00075, 0.0012 and 0.078 (seed 11), so one seed supplies 97% of the mean 0.0040 (sd 0.017,
+> median 0). In 19 of 20 seeds stft decays as it does under exact payoffs (factor 0.982 per
+> generation, 2.7e-9 at generation 1000); only seed 11 holds it near 0.078. Two other ways of
+> scoring give the same places, and they differ from the official ones:
+> every column from the exact Markov matrix (`exact_ipd.py`), or the evolution columns as the median
+> over seeds. quiet-awl stays 1st (3); **alternator and cross-cut tie for 2nd (13.5); stft is 4th
+> (14.5)**; tft 5th, knock-twice 6th, the rest unchanged (`erratum/places_alt.txt`). The same flaw
+> swaps tft and cross-cut in the no-floor column (1.5e-63 vs 1.6e-65 sampled; exact 5.2e-70 vs
+> 1.4e-68): places decided on that scale are not places. The table above is what the pre-announced
+> rule produces and stays as the record; the rule was wrong to print a mean with no spread.
+> Reproduce: `cd erratum && python3 check.py && python3 places_alt.py` (about a minute).
+
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats
   the earlier leader knock-twice 2.59 to 1.83, cooperates with itself at 2.82; it loses to stft

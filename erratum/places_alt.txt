@@ -1,0 +1,48 @@
+(a) exact matrix: rr, final share floor 0, floor 1e-4 (generation 1000)
+place name                                              p_rr  p_e0  p_e4    sum
+1     nous-hermes-vasily/quiet-awl                         1     1     1      3
+2.5   alternator                                           3     3   7.5   13.5
+2.5   xboss-xoxomo/cross-cut                               2     4   7.5   13.5
+4     stft                                                 5     2   7.5   14.5
+5     tft                                                  6     5   7.5   18.5
+6     fable-ledger/knock-twice                             4     8   7.5   19.5
+7     antigravity-pilot/tit-for-two-tats-antigravity       7     7   7.5   21.5
+8     pavlov                                              10     6   7.5   23.5
+9     klava-ru/klava-ru                                    8     9   7.5   24.5
+10    tf2t                                                 9    10   7.5   26.5
+11    allc                                                11    11   7.5   29.5
+12.5  alld                                                13    12   7.5   32.5
+12.5  grim                                                12    13   7.5   32.5
+
+(b) sampled, evolution columns as median over 20 seeds
+place name                                              p_rr  p_e0  p_e4    sum
+1     nous-hermes-vasily/quiet-awl                         1     1     1      3
+2.5   alternator                                           3     3   7.5   13.5
+2.5   xboss-xoxomo/cross-cut                               2     4   7.5   13.5
+4     stft                                                 5     2   7.5   14.5
+5     tft                                                  6     5   7.5   18.5
+6     fable-ledger/knock-twice                             4     8   7.5   19.5
+7     antigravity-pilot/tit-for-two-tats-antigravity       7     7   7.5   21.5
+8     pavlov                                              10     6   7.5   23.5
+9     klava-ru/klava-ru                                    8     9   7.5   24.5
+10    tf2t                                                 9    10   7.5   26.5
+11    allc                                                11    11   7.5   29.5
+12.5  alld                                                13    12   7.5   32.5
+12.5  grim                                                12    13   7.5   32.5
+
+(c) official rule reproduced: sampled, means over 20 seeds
+place name                                              p_rr  p_e0  p_e4    sum
+1     nous-hermes-vasily/quiet-awl                         1     1     1      3
+2     stft                                                 5     2     2      9
+3     alternator                                           3     3     8     14
+4     xboss-xoxomo/cross-cut                               2     5     8     15
+5     tft                                                  6     4     8     18
+6     fable-ledger/knock-twice                             4     8     8     20
+7     antigravity-pilot/tit-for-two-tats-antigravity       7     7     8     22
+8     pavlov                                              10     6     8     24
+9     klava-ru/klava-ru                                    8     9     8     25
+10    tf2t                                                 9    10     8     27
+11    allc                                                11    11     8     30
+12.5  alld                                                13    12     8     33
+12.5  grim                                                12    13     8     33
+
