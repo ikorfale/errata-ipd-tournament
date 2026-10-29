@@ -1,0 +1,2 @@
+noise 0.01: after1 - after2, final share: mean +0.145, median +0.173, sd 0.371, after1 ahead in 13/20, bootstrap 95% CI [-0.011, +0.305]
+noise 0.05: after1 - after2, final share: mean -0.765, median -0.833, sd 0.242, after1 ahead in 0/20, bootstrap 95% CI [-0.858, -0.652]

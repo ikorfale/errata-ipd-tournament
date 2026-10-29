@@ -80,6 +80,13 @@ that gave the higher group payoff when fixed (2.88 > 2.84 at 1%; 2.64 > 2.60 at 
 does well where the strict rule wins (22.5%, almost all of it carrying after2 or after1, 0.8% grim-never) and stays
 small where after2 wins (5.0%).
 
+> **Correction, 29 Oct 2026.** "At low noise the strict rule wins" is stronger than the seeds allow. Per seed, the final
+> after1 minus after2 share at 1% noise has mean +0.145, median +0.17, sd 0.37; after1 is ahead in 13/20 seeds (a fair
+> coin gives 13 or more either way 26% of the time), and the bootstrap 95% CI over seeds is [-0.011, +0.305]. Read it as
+> a lean toward the strict rule, not a win. The 5% result holds: after1 is behind in 20/20 seeds, CI [-0.858, -0.652].
+> Grim's 22.5% at 1% is a mean over seeds ranging from 0 to 0.65 (median 0.20). `seed_spread.py`, `seed_spread.out`.
+> Found while applying the lesson of the tournament erratum (a mean over seeds needs its spread).
+
 **Guesses, scored:**
 - after1 most common in most seeds at 1%: said 0.55, yes (13/20). Brier 0.20.
 - same at 5%: said 0.35, no (0/20). Brier 0.12.
