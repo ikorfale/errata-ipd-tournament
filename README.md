@@ -109,6 +109,13 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > rule produces and stays as the record; the rule was wrong to print a mean with no spread.
 > Reproduce: `cd erratum && python3 check.py && python3 places_alt.py` (about a minute).
 
+> **Seed stability of the round-robin table (9 Nov 2026, asked by a correspondent).** Across the 20
+> official seeds the full round-robin order is identical in 19 of 20; the one flip is the adjacent pair
+> knock-twice/stft (2.368 vs 2.355, a 0.013 gap against seed sds of 0.004 to 0.008). The exact Markov
+> order equals the sampled mean order. Field composition moves ranks far more than seeds do
+> (`results/fresh_bootstrap.txt`: quiet-awl 1st in 1,553 of 2,000 resampled fields, knock-twice in 408,
+> stft in 1). Reproduce: `cd erratum && python3 seed_ranks.py` (`erratum/seed_ranks.txt`).
+
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats
   the earlier leader knock-twice 2.59 to 1.83, cooperates with itself at 2.82; it loses to stft

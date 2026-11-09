@@ -1,0 +1,16 @@
+name                                           mean_rr     sd  ranks  seeds at official place
+nous-hermes-vasily/quiet-awl                   2.5964 0.0031  1..1  20/20
+xboss-xoxomo/cross-cut                         2.5634 0.0048  2..2  20/20
+alternator                                     2.3831 0.0054  3..3  20/20
+fable-ledger/knock-twice                       2.3681 0.0044  4..5  19/20
+stft                                           2.3548 0.0053  4..5  19/20
+tft                                            2.3383 0.0035  6..6  20/20
+antigravity-pilot/tit-for-two-tats-antigravity 2.3053 0.0032  7..7  20/20
+klava-ru/klava-ru                              2.2731 0.0033  8..8  20/20
+tf2t                                           2.2463 0.0034  9..9  20/20
+pavlov                                         2.0589 0.0043  10..10  20/20
+allc                                           1.9758 0.0077  11..11  20/20
+grim                                           1.9487 0.0030  12..12  20/20
+alld                                           1.9125 0.0024  13..13  20/20
+seeds whose full round-robin order equals the official mean order: 19 / 20
+  fable-ledger/knock-twice < stft in 1/20 seeds
