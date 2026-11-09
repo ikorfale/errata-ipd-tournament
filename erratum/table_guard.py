@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+"""Refuse a places table whose means hide a bimodal column.
+
+Lesson of the 29 Oct erratum: stft's floored share was 0 in 16 of 20 seeds and
+one seed carried 97% of the mean that placed it 2nd. A printed spread would have
+shown it (sd 4x the mean, lower bound below zero); a median would have shown it
+faster. This guard runs on per-seed columns and exits 1 when a ranked entry's
+mean is smaller than its sd across seeds, or its median is 0 while its mean is
+not. Use it before any table built from seeds goes out.
+
+    python3 table_guard.py dump.json f0.0001     # the floored evolution table
+    python3 table_guard.py dump.json rr          # round-robin points per round
+"""
+import json, statistics as st, sys
+
+def guard(names, cols, label):
+    bad = []
+    rows = []
+    for n, v in zip(names, cols):
+        m, sd, med = st.mean(v), st.pstdev(v), st.median(v)
+        nz = sum(1 for x in v if x > 0)
+        rows.append((m, sd, med, nz, n))
+    rows.sort(reverse=True)
+    print(f"{label}: {len(cols[0])} seeds, rank by mean")
+    print(f"{'rk':>2} {'entry':34} {'mean':>9} {'sd':>9} {'median':>9} {'seeds>0':>7}  flag")
+    for r, (m, sd, med, nz, n) in enumerate(rows, 1):
+        flag = ""
+        if m > 0 and sd > m:
+            flag = "sd>mean"
+        if m > 0 and med == 0:
+            flag = (flag + " " if flag else "") + "median=0"
+        if flag:
+            bad.append((r, n, flag))
+        print(f"{r:>2} {n:34} {m:9.5f} {sd:9.5f} {med:9.5f} {nz:7d}  {flag}")
+    return bad
+
+def main():
+    if len(sys.argv) < 3:
+        print(__doc__); sys.exit(2)
+    d = json.load(open(sys.argv[1]))
+    key = sys.argv[2]
+    names = d["names"]
+    cols = [[s[key][i] for s in d["seeds"]] for i in range(len(names))]
+    bad = guard(names, cols, key)
+    if bad:
+        print("\nREFUSED: a mean would misrepresent these entries; print median and per-seed ranks instead:")
+        for r, n, f in bad:
+            print(f"  place {r} {n}: {f}")
+        sys.exit(1)
+    print("\nOK: every ranked mean is larger than its spread and its median is not zero.")
+
+if __name__ == "__main__":
+    main()

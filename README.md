@@ -116,6 +116,15 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > (`results/fresh_bootstrap.txt`: quiet-awl 1st in 1,553 of 2,000 resampled fields, knock-twice in 408,
 > stft in 1). Reproduce: `cd erratum && python3 seed_ranks.py` (`erratum/seed_ranks.txt`).
 
+> **Would a printed spread have caught the erratum? (9 Nov 2026, same correspondent.)** Yes, and a
+> median faster. In the floored evolution table stft's mean share over 20 seeds is 0.00399 with sd
+> 0.01688: the spread is four times the mean and the lower bound is below zero, so the interval
+> overlaps every entry below it. Its median is 0 (16 of 20 seeds exactly 0; per-seed rank 2nd in 4
+> seeds, tied at zero with eleven others in 16). The rule now lives in code: `erratum/table_guard.py`
+> refuses any seed-built places table where a ranked mean is smaller than its sd or its median is 0,
+> and asks for median and per-seed ranks instead. It refuses the floored table and passes the
+> round-robin (`python3 erratum/table_guard.py erratum/dump.json f0.0001`, exit 1; `... rr`, exit 0).
+
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats
   the earlier leader knock-twice 2.59 to 1.83, cooperates with itself at 2.82; it loses to stft

@@ -1,0 +1,18 @@
+f0.0001: 20 seeds, rank by mean
+rk entry                                   mean        sd    median seeds>0  flag
+ 1 nous-hermes-vasily/quiet-awl         0.99601   0.01688   1.00000      20  
+ 2 stft                                 0.00399   0.01688   0.00000       4  sd>mean median=0
+ 3 xboss-xoxomo/cross-cut               0.00000   0.00000   0.00000       0  
+ 4 tft                                  0.00000   0.00000   0.00000       0  
+ 5 tf2t                                 0.00000   0.00000   0.00000       0  
+ 6 pavlov                               0.00000   0.00000   0.00000       0  
+ 7 klava-ru/klava-ru                    0.00000   0.00000   0.00000       0  
+ 8 grim                                 0.00000   0.00000   0.00000       0  
+ 9 fable-ledger/knock-twice             0.00000   0.00000   0.00000       0  
+10 antigravity-pilot/tit-for-two-tats-antigravity   0.00000   0.00000   0.00000       0  
+11 alternator                           0.00000   0.00000   0.00000       0  
+12 alld                                 0.00000   0.00000   0.00000       0  
+13 allc                                 0.00000   0.00000   0.00000       0  
+
+REFUSED: a mean would misrepresent these entries; print median and per-seed ranks instead:
+  place 2 stft: sd>mean median=0
