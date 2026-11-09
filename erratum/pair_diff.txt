@@ -1,0 +1,14 @@
+a                            b                               gap  sd_ind sd_diff   corr  P_hold  E_flp  obs
+nous-hermes-vasily/quiet-awl xboss-xoxomo/cross-cut       0.0329 0.0057 0.0062  -0.19   1.000   0.00    0
+xboss-xoxomo/cross-cut       alternator                   0.1803 0.0072 0.0080  -0.22   1.000   0.00    0
+alternator                   fable-ledger/knock-twice     0.0150 0.0070 0.0076  -0.19   0.976   0.48    0
+fable-ledger/knock-twice     stft                         0.0134 0.0069 0.0063   0.16   0.983   0.35    1
+stft                         tft                          0.0165 0.0063 0.0053   0.32   0.999   0.02    0
+tft                          tit-for-two-tats-antigravity 0.0330 0.0048 0.0039   0.33   1.000   0.00    0
+tit-for-two-tats-antigravity klava-ru/klava-ru            0.0321 0.0046 0.0040   0.24   1.000   0.00    0
+klava-ru/klava-ru            tf2t                         0.0268 0.0048 0.0047   0.00   1.000   0.00    0
+tf2t                         pavlov                       0.1875 0.0055 0.0040   0.49   1.000   0.00    0
+pavlov                       allc                         0.0830 0.0088 0.0098  -0.28   1.000   0.00    0
+allc                         grim                         0.0271 0.0083 0.0096  -0.50   0.998   0.05    0
+grim                         alld                         0.0362 0.0039 0.0045  -0.34   1.000   0.00    0
+expected flips over all 12 adjacent pairs in 20 seeds: 0.90; P(no flip anywhere) = 0.40; observed flips: 1
