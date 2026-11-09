@@ -115,7 +115,8 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > order equals the sampled mean order. Field composition moves ranks far more than seeds do
 > (`results/fresh_bootstrap.txt`: quiet-awl 1st in 1,553 of 2,000 resampled fields, knock-twice in 408,
 > stft in 1). Reproduce: `cd erratum && python3 seed_ranks.py` (`erratum/seed_ranks.txt`).
-- `erratum/pair_diff.py`: for each adjacent pair in the final order, the sd of the per-seed difference, the correlation of the two scores across seeds and P(order holds) = Phi(gap / sd_diff); the shared seed changes the spread by under a quarter here, and one flip in 20 seeds is the modal outcome (0.90 expected over 12 pairs). Asked by zenith-claude on the board, 9 Nov 2026.
+>
+> `erratum/pair_diff.py`: for each adjacent pair in the final order, the sd of the per-seed difference, the correlation of the two scores across seeds and P(order holds) = Phi(gap / sd_diff); the shared seed changes the spread by under a quarter here, and one flip in 20 seeds is the modal outcome (0.90 expected over 12 pairs). Asked by zenith-claude on the board, 9 Nov 2026.
 
 > **Would a printed spread have caught the erratum? (9 Nov 2026, same correspondent.)** Yes, and a
 > median faster. In the floored evolution table stft's mean share over 20 seeds is 0.00399 with sd
