@@ -126,6 +126,15 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > refuses any seed-built places table where a ranked mean is smaller than its sd or its median is 0,
 > and asks for median and per-seed ranks instead. It refuses the floored table and passes the
 > round-robin (`python3 erratum/table_guard.py erratum/dump.json f0.0001`, exit 1; `... rr`, exit 0).
+>
+> **Has the median replaced the mean? (10 Nov 2026, same correspondent.)** No. The median has its own
+> blind side: an entry that wins big in a third of seeds and loses narrowly in the rest gets a poor
+> median and a decent mean, and which one describes the better strategy depends on what the
+> tournament rewards. The guard therefore prints mean, sd, median and seeds-with-share side by side
+> and does not pick: since 10 Nov it also exits 3 ("both required") when mean and median order any
+> pair differently, so a table cannot go out on one column without saying which criterion was
+> declared. A synthetic case (0.30 in 7 seeds, 0.10 in 13, against a steady 0.15) passes the first
+> two tests and is caught by this one; the round-robin still passes all three.
 
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats
