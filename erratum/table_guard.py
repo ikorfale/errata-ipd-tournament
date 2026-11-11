@@ -16,10 +16,43 @@ the guard does not choose: when the order by mean and the order by median
 disagree for any pair, it exits 3 and asks for both columns plus a sentence
 naming the declared criterion.
 
+Third check (11 Nov, the same reader): "both columns plus the declared
+criterion" is only honest if the criterion was declared before the results
+existed. With --declared FILE the guard reads `criterion: mean` or
+`criterion: median` from FILE and asks git when FILE and the results file were
+first committed. It exits 4 if either is uncommitted or the declaration is not
+strictly older than the results; otherwise, on a mean/median conflict, it ranks
+by the declared column and exits 0. Git commit times can be forged by whoever
+owns the repo, so this catches choosing after the fact by habit, not by intent;
+a public push (or a post) before the run is the stronger receipt.
+
     python3 table_guard.py dump.json f0.0001     # the floored evolution table
     python3 table_guard.py dump.json rr          # round-robin points per round
+    python3 table_guard.py dump.json rr --declared CRITERION.txt
 """
-import json, statistics as st, sys
+import json, os, re, statistics as st, subprocess, sys
+
+def first_commit_time(path):
+    """Unix time of the first commit that added path, or None if it is not committed."""
+    d = os.path.dirname(os.path.abspath(path))
+    r = subprocess.run(["git", "-C", d, "log", "--diff-filter=A", "--follow", "--format=%ct", "--",
+                        os.path.abspath(path)], capture_output=True, text=True)
+    lines = r.stdout.split()
+    return int(lines[-1]) if r.returncode == 0 and lines else None
+
+def read_declared(dfile, results):
+    m = re.search(r"^criterion:\s*(mean|median)\s*$", open(dfile).read(), re.M)
+    if not m:
+        print(f"DECLARATION INVALID: {dfile} has no line 'criterion: mean' or 'criterion: median'"); sys.exit(4)
+    td, tr = first_commit_time(dfile), first_commit_time(results)
+    if td is None or tr is None:
+        print(f"DECLARATION UNPROVEN: {'declaration' if td is None else 'results file'} is not committed; "
+              "commit the criterion before the run, then the results"); sys.exit(4)
+    if td >= tr:
+        print(f"DECLARATION TOO LATE: criterion first committed at {td}, results at {tr}; "
+              "a criterion chosen after the results exist cannot settle the order"); sys.exit(4)
+    print(f"declared criterion: {m.group(1)} (committed {tr - td} s before the results)")
+    return m.group(1)
 
 def guard(names, cols, label):
     bad = []
@@ -53,10 +86,17 @@ def order_conflicts(rows):
     return out
 
 def main():
-    if len(sys.argv) < 3:
+    args = sys.argv[1:]
+    declared = None
+    if "--declared" in args:
+        i = args.index("--declared")
+        dfile = args[i + 1]
+        del args[i:i + 2]
+        declared = read_declared(dfile, args[0])
+    if len(args) < 2:
         print(__doc__); sys.exit(2)
-    d = json.load(open(sys.argv[1]))
-    key = sys.argv[2]
+    d = json.load(open(args[0]))
+    key = args[1]
     names = d["names"]
     cols = [[s[key][i] for s in d["seeds"]] for i in range(len(names))]
     bad, rows = guard(names, cols, key)
@@ -66,6 +106,13 @@ def main():
             print(f"  place {r} {n}: {f}")
         sys.exit(1)
     conf = order_conflicts(rows)
+    if conf and declared:
+        print(f"\nmean and median disagree on {len(conf)} pair(s); ranking by the declared {declared}:")
+        idx = 0 if declared == "mean" else 2
+        for r, row in enumerate(sorted(rows, key=lambda x: -x[idx]), 1):
+            print(f"  {r:>2} {row[4]:34} {row[idx]:.5f}")
+        print("Print both columns anyway; the declaration says which one decides.")
+        sys.exit(0)
     if conf:
         print("\nBOTH REQUIRED: mean and median order these pairs differently; print both columns and name the declared criterion:")
         for a, b, ma, mb, da, db in conf:

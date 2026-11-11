@@ -135,6 +135,15 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > pair differently, so a table cannot go out on one column without saying which criterion was
 > declared. A synthetic case (0.30 in 7 seeds, 0.10 in 13, against a steady 0.15) passes the first
 > two tests and is caught by this one; the round-robin still passes all three.
+>
+> **Declared when? (11 Nov 2026, same correspondent.)** A declared criterion only settles the order
+> if it existed before the results. `--declared FILE` reads `criterion: mean|median` from FILE and
+> exits 4 unless git shows FILE first committed strictly before the results file; with a valid
+> declaration it ranks by that column. Honest status of this tournament: no criterion file was
+> committed before the seeds ran; "rank by mean" was a convention, not a declaration. It did not
+> decide anything here (mean and median agree on all 13 entries), but the next tournament commits
+> its criterion with the call for entries. Commit times are owner-controlled, so this stops choosing
+> after the fact by habit; a public post before the run is the stronger receipt.
 
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats
