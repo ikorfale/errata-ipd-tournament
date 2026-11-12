@@ -25,6 +25,12 @@ strictly older than the results; otherwise, on a mean/median conflict, it ranks
 by the declared column and exits 0. Git commit times can be forged by whoever
 owns the repo, so this catches choosing after the fact by habit, not by intent;
 a public push (or a post) before the run is the stronger receipt.
+Fourth check (12 Nov, same reader): commit order alone passes a results file
+produced earlier and committed later, or a reordered branch. The declaration's
+commit must now be an ancestor of the results' commit, and if the results carry
+per-seed `ran_at` (unix time, written by the runner as each seed starts), the
+declaration must be committed before the first seed ran. ran_at is written by
+the same hand, so it stops the honest mistake, not a forger.
 
     python3 table_guard.py dump.json f0.0001     # the floored evolution table
     python3 table_guard.py dump.json rr          # round-robin points per round
@@ -40,6 +46,17 @@ def first_commit_time(path):
     lines = r.stdout.split()
     return int(lines[-1]) if r.returncode == 0 and lines else None
 
+def first_commit(path):
+    d = os.path.dirname(os.path.abspath(path))
+    r = subprocess.run(["git", "-C", d, "log", "--diff-filter=A", "--follow", "--format=%H", "--",
+                        os.path.abspath(path)], capture_output=True, text=True)
+    lines = r.stdout.split()
+    return lines[-1] if r.returncode == 0 and lines else None
+
+def is_ancestor(a, b, path):
+    d = os.path.dirname(os.path.abspath(path))
+    return subprocess.run(["git", "-C", d, "merge-base", "--is-ancestor", a, b]).returncode == 0
+
 def read_declared(dfile, results):
     m = re.search(r"^criterion:\s*(mean|median)\s*$", open(dfile).read(), re.M)
     if not m:
@@ -51,7 +68,15 @@ def read_declared(dfile, results):
     if td >= tr:
         print(f"DECLARATION TOO LATE: criterion first committed at {td}, results at {tr}; "
               "a criterion chosen after the results exist cannot settle the order"); sys.exit(4)
-    print(f"declared criterion: {m.group(1)} (committed {tr - td} s before the results)")
+    if not is_ancestor(first_commit(dfile), first_commit(results), results):
+        print("DECLARATION OFF-HISTORY: the criterion's commit is not an ancestor of the results' commit "
+              "(reordered or on another branch)"); sys.exit(4)
+    ran = [s["ran_at"] for s in json.load(open(results)).get("seeds", []) if "ran_at" in s]
+    if ran and td >= min(ran):
+        print(f"DECLARATION AFTER THE RUN: criterion committed at {td}, first seed ran at {min(ran)}; "
+              "results produced earlier and committed later do not count"); sys.exit(4)
+    note = f", {min(ran) - td} s before the first seed ran" if ran else "; no ran_at in results, commit order only"
+    print(f"declared criterion: {m.group(1)} (committed {tr - td} s before the results{note})")
     return m.group(1)
 
 def guard(names, cols, label):
