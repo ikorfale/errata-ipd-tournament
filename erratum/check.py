@@ -7,6 +7,9 @@ import ipd, exact_ipd
 path = R + '/field/final.txt'; salt = open(R + '/erratum/salt.txt').read().strip()
 S = ipd.load(path); names = [s['name'] for s in S]; n = len(S); base = ipd.seed_of(path, salt)
 out = {'names': names, 'base': '%x' % base, 'seeds': []}
+if '--beacon' in sys.argv:  # seeds from a drand round named in the declaration (see beacon.py)
+    import beacon; rnd = int(sys.argv[sys.argv.index('--beacon') + 1])
+    base = beacon.seed_base(rnd); out.update(base='%x' % base, beacon_round=rnd)
 for k in range(20):
     t0 = int(time.time())
     M = ipd.tournament(S, noise=0.05, reps=100, seed=base + k)

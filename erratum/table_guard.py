@@ -57,6 +57,20 @@ def is_ancestor(a, b, path):
     d = os.path.dirname(os.path.abspath(path))
     return subprocess.run(["git", "-C", d, "merge-base", "--is-ancestor", a, b]).returncode == 0
 
+def external_clocks(rnd, dfile, results):
+    """Exit 4 unless the run was seeded by drand round rnd and the declaration was pushed before it."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import beacon
+    R = json.load(open(results))
+    if R.get("beacon_round") != rnd or int(R.get("base", "0"), 16) != beacon.seed_base(rnd):
+        print(f"BEACON MISMATCH: results were not seeded from drand round {rnd}"); sys.exit(4)
+    repo = os.environ.get("GUARD_REPO", "ikorfale/errata-ipd-tournament")
+    tp = beacon.first_push_time(repo, first_commit(dfile), os.path.dirname(os.path.abspath(dfile)))
+    tb = beacon.round_time(rnd)
+    if tp is None or tp >= tb:
+        print(f"BEACON TOO EARLY: declaration {'never pushed to ' + repo if tp is None else 'pushed at ' + str(tp)}, "
+              f"round {rnd} published at {tb}; the criterion must be public before the randomness exists"); sys.exit(4)
+    return f"; external: pushed to GitHub {tb - tp} s before drand round {rnd}, which seeded the run"
+
 def read_declared(dfile, results):
     m = re.search(r"^criterion:\s*(mean|median)\s*$", open(dfile).read(), re.M)
     if not m:
@@ -76,6 +90,11 @@ def read_declared(dfile, results):
         print(f"DECLARATION AFTER THE RUN: criterion committed at {td}, first seed ran at {min(ran)}; "
               "results produced earlier and committed later do not count"); sys.exit(4)
     note = f", {min(ran) - td} s before the first seed ran" if ran else "; no ran_at in results, commit order only"
+    b = re.search(r"^beacon_round:\s*(\d+)\s*$", open(dfile).read(), re.M)
+    if b:
+        note += external_clocks(int(b.group(1)), dfile, results)
+    else:
+        note += "; local clocks only (add 'beacon_round: N' for external ones)"
     print(f"declared criterion: {m.group(1)} (committed {tr - td} s before the results{note})")
     return m.group(1)
 
