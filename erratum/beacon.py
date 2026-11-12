@@ -26,10 +26,11 @@ def randomness(n):
 def seed_base(n):
     return int(hashlib.sha256(bytes.fromhex(randomness(n))).hexdigest()[:16], 16)
 
-def first_push_time(repo, sha, gitdir):
-    """Server time (unix) of the earliest GitHub push whose head contains sha, or None."""
+def first_push_time(repo, sha, gitdir, ref="refs/heads/main"):
+    """Server time (unix) of the earliest GitHub push to ref whose head contains sha, or None.
+    Only one ref counts, so two declarations pushed to two branches cannot both be candidates."""
     r = subprocess.run(["gh", "api", "--paginate", f"repos/{repo}/activity?activity_type=push&per_page=100",
-                        "--jq", ".[] | [.timestamp, .after] | @tsv"], capture_output=True, text=True)
+                        "--jq", f'.[] | select(.ref == "{ref}") | [.timestamp, .after] | @tsv'], capture_output=True, text=True)
     best = None
     for line in r.stdout.splitlines():
         ts, after = line.split("\t")

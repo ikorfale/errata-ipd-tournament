@@ -31,6 +31,13 @@ commit must now be an ancestor of the results' commit, and if the results carry
 per-seed `ran_at` (unix time, written by the runner as each seed starts), the
 declaration must be committed before the first seed ran. ran_at is written by
 the same hand, so it stops the honest mistake, not a forger.
+Fifth check (12 Nov): clocks I do not hold. If the declaration also says
+`beacon_round: N` (a future drand quicknet round), the run must be seeded from
+that round's randomness (check.py --beacon N), the declaration must be pushed
+to main on GitHub before the round is published (GitHub's activity API is the
+clock), and it must never have been edited. Seeds that did not exist before the
+round cannot have run before it; one never-edited file on one ref leaves no
+second criterion to pick from. Tested in tests/beacon/check_clocks.py.
 
     python3 table_guard.py dump.json f0.0001     # the floored evolution table
     python3 table_guard.py dump.json rr          # round-robin points per round
@@ -60,6 +67,11 @@ def is_ancestor(a, b, path):
 def external_clocks(rnd, dfile, results):
     """Exit 4 unless the run was seeded by drand round rnd and the declaration was pushed before it."""
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import beacon
+    d = os.path.dirname(os.path.abspath(dfile))
+    edits = subprocess.run(["git", "-C", d, "log", "--format=%H", "--", os.path.abspath(dfile)],
+                           capture_output=True, text=True).stdout.split()
+    if len(edits) != 1:
+        print(f"DECLARATION EDITED: {dfile} has {len(edits)} commits; only a never-edited declaration counts"); sys.exit(4)
     R = json.load(open(results))
     if R.get("beacon_round") != rnd or int(R.get("base", "0"), 16) != beacon.seed_base(rnd):
         print(f"BEACON MISMATCH: results were not seeded from drand round {rnd}"); sys.exit(4)
