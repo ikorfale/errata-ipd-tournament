@@ -38,6 +38,13 @@ to main on GitHub before the round is published (GitHub's activity API is the
 clock), and it must never have been edited. Seeds that did not exist before the
 round cannot have run before it; one never-edited file on one ref leaves no
 second criterion to pick from. Tested in tests/beacon/check_clocks.py.
+Sixth check (13 Nov, same reader): one round must yield one run. With a
+beacon round, the runner and its inputs (FROZEN below) must be byte-identical
+between the declaration's commit and the results' commit, and the guard
+re-runs the declaration's own code from that round (~15 s) and requires every
+number to match. Seeds are sha256(round randomness) + k, k = 0..19, with noise,
+reps and field fixed in that code, so reruns cannot differ and editing the
+code to get a second draw is refused. Tested in tests/beacon/check_one_run.py.
 
     python3 table_guard.py dump.json f0.0001     # the floored evolution table
     python3 table_guard.py dump.json rr          # round-robin points per round
@@ -83,6 +90,60 @@ def external_clocks(rnd, dfile, results):
               f"round {rnd} published at {tb}; the criterion must be public before the randomness exists"); sys.exit(4)
     return f"; external: pushed to GitHub {tb - tp} s before drand round {rnd}, which seeded the run"
 
+FROZEN = ["ipd.py", "exact_ipd.py", "erratum/check.py", "erratum/beacon.py", "erratum/salt.txt", "field"]
+
+def runner_changed(a, b, gitdir):
+    """Files of FROZEN that differ between commits a and b (empty list = same runner, same inputs)."""
+    r = subprocess.run(["git", "-C", gitdir, "diff", "--name-only", a, b, "--"] + FROZEN,
+                       capture_output=True, text=True, cwd=gitdir)
+    return r.stdout.split()
+
+def same_numbers(x, y, path="", tol=1e-9):
+    """First place where two result trees differ, ignoring ran_at; None if they agree."""
+    if isinstance(x, dict) and isinstance(y, dict):
+        for k in sorted(set(x) | set(y)):
+            if k == "ran_at": continue
+            if k not in x or k not in y: return f"{path}/{k} missing on one side"
+            d = same_numbers(x[k], y[k], f"{path}/{k}", tol)
+            if d: return d
+        return None
+    if isinstance(x, list) and isinstance(y, list):
+        if len(x) != len(y): return f"{path} length {len(x)} vs {len(y)}"
+        for i, (a, b) in enumerate(zip(x, y)):
+            d = same_numbers(a, b, f"{path}[{i}]", tol)
+            if d: return d
+        return None
+    if isinstance(x, (int, float)) and isinstance(y, (int, float)):
+        return None if abs(x - y) <= tol * max(1.0, abs(x), abs(y)) else f"{path} {x} vs {y}"
+    return None if x == y else f"{path} {x!r} vs {y!r}"
+
+def one_run(rnd, dfile, results):
+    """Exit 4 unless these results are the only run round rnd allows: the runner and its inputs are
+    byte-identical between the declaration's commit and the results' commit, and re-running the
+    declaration's own code from round rnd reproduces every number (seeds are sha256(randomness)+k)."""
+    import shutil, tempfile
+    gd = os.path.dirname(os.path.abspath(dfile)); dc, rc = first_commit(dfile), first_commit(results) or "HEAD"
+    top = subprocess.run(["git", "-C", gd, "rev-parse", "--show-toplevel"], capture_output=True, text=True).stdout.strip()
+    ch = runner_changed(dc, rc, top)
+    if ch:
+        print(f"RUNNER CHANGED: {', '.join(ch)} differ between the declaration and the results; "
+              "a run from edited code is a second draw from the same round"); sys.exit(4)
+    tmp = tempfile.mkdtemp(prefix="replay-")
+    try:
+        a = subprocess.run(["git", "-C", top, "archive", dc], capture_output=True, check=True)
+        subprocess.run(["tar", "-x", "-C", tmp], input=a.stdout, check=True)
+        out = os.path.join(tmp, "erratum", "dump.json")
+        if os.path.exists(out): os.remove(out)
+        subprocess.run([sys.executable, os.path.join(tmp, "erratum", "check.py"), "--beacon", str(rnd)],
+                       cwd=tmp, capture_output=True, check=True)
+        diff = same_numbers(json.load(open(out)), json.load(open(results)))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    if diff:
+        print(f"REPLAY MISMATCH at {diff}: the declaration's code seeded from round {rnd} gives other numbers; "
+              "these results are not the one run this round allows"); sys.exit(4)
+    return f"; replayed from the declaration's commit: identical (one round, one run)"
+
 def read_declared(dfile, results):
     m = re.search(r"^criterion:\s*(mean|median)\s*$", open(dfile).read(), re.M)
     if not m:
@@ -105,6 +166,7 @@ def read_declared(dfile, results):
     b = re.search(r"^beacon_round:\s*(\d+)\s*$", open(dfile).read(), re.M)
     if b:
         note += external_clocks(int(b.group(1)), dfile, results)
+        note += one_run(int(b.group(1)), dfile, results)
     else:
         note += "; local clocks only (add 'beacon_round: N' for external ones)"
     print(f"declared criterion: {m.group(1)} (committed {tr - td} s before the results{note})")
