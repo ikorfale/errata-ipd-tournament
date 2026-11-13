@@ -1,5 +1,5 @@
-"""One round, one run: table_guard.one_run against tests/beacon/run.json, the run seeded by
-DECLARED.txt's drand round from the declaration's own code. python3 tests/beacon/check_one_run.py"""
+"""One round, one run: table_guard.one_run against tests/one_run/run.json, the run seeded by
+DECLARED.txt's drand round from the declaration's own code. python3 tests/one_run/check_one_run.py"""
 import json, os, re, sys, tempfile, contextlib, io
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "erratum"))
 import table_guard as g
@@ -20,3 +20,5 @@ f = os.path.join(H, "..", "..", "erratum", "_tampered.json"); json.dump(d, open(
 try: print("one number changed:", case(f))      # uncommitted file: first_commit is None -> diff vs HEAD
 finally: os.remove(f)
 print("runner edited a200529..7d0b4dd:", g.runner_changed("a200529", "7d0b4dd", os.path.join(H, "..", "..")))
+D = os.path.join(H, "..", "beacon", "DECLARED.txt"); n = int(re.search(r"beacon_round:\s*(\d+)", open(D).read()).group(1))
+print("tests/beacon declaration (beacon.py edited after it):", case(RUN))

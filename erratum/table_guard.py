@@ -44,7 +44,7 @@ between the declaration's commit and the results' commit, and the guard
 re-runs the declaration's own code from that round (~15 s) and requires every
 number to match. Seeds are sha256(round randomness) + k, k = 0..19, with noise,
 reps and field fixed in that code, so reruns cannot differ and editing the
-code to get a second draw is refused. Tested in tests/beacon/check_one_run.py.
+code to get a second draw is refused. Tested in tests/one_run/check_one_run.py.
 
     python3 table_guard.py dump.json f0.0001     # the floored evolution table
     python3 table_guard.py dump.json rr          # round-robin points per round
