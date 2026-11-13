@@ -1,0 +1,2 @@
+criterion: mean
+beacon_round: 33908762
