@@ -49,6 +49,13 @@ code to get a second draw is refused. Tested in tests/one_run/check_one_run.py.
     python3 table_guard.py dump.json f0.0001     # the floored evolution table
     python3 table_guard.py dump.json rr          # round-robin points per round
     python3 table_guard.py dump.json rr --declared CRITERION.txt
+    python3 table_guard.py --pin    # file_sha256/entry_sha256 lines to paste into a declaration
+
+Seventh check (13 Nov, same reader): the entries, readably. The commit already
+pins every entry byte; a declaration may also carry file_sha256 and
+entry_sha256 lines (printed by --pin). If it has any, they must match the
+declaration's own commit and cover every frozen file and every entry, so a
+reader can check one strategy with sha256sum, without git.
 """
 import json, os, re, statistics as st, subprocess, sys
 
@@ -97,6 +104,38 @@ def runner_changed(a, b, gitdir):
     r = subprocess.run(["git", "-C", gitdir, "diff", "--name-only", a, b, "--"] + FROZEN,
                        capture_output=True, text=True, cwd=gitdir)
     return r.stdout.split()
+
+def pins_at(commit, gitdir):
+    """sha256 of every frozen file, and of every entry of the field, as stored in commit."""
+    import hashlib
+    names = subprocess.run(["git", "-C", gitdir, "ls-tree", "-r", "--name-only", commit, "--"] + FROZEN,
+                           capture_output=True, text=True, check=True).stdout.split()
+    files, entries = {}, {}
+    for n in names:
+        b = subprocess.run(["git", "-C", gitdir, "show", f"{commit}:{n}"], capture_output=True, check=True).stdout
+        files[n] = hashlib.sha256(b).hexdigest()
+        if n == "field/final.txt":
+            for blk in re.split(r"^---$", b.decode(), flags=re.M):   # entry = text between '---' lines,
+                blk = blk.strip("\n")                                  # surrounding newlines removed
+                m = re.search(r"^name:\s*(\S+)", blk, re.M)
+                if m: entries[m.group(1)] = hashlib.sha256(blk.encode()).hexdigest()
+    return files, entries
+
+def check_pins(text, commit, gitdir):
+    """Readable pins in the declaration ('file_sha256: path hex', 'entry_sha256: name hex') must match
+    the declaration's own commit and cover every frozen file and every entry; '' if it has none."""
+    fp = dict(re.findall(r"^file_sha256:\s*(\S+)\s+([0-9a-f]{64})\s*$", text, re.M))
+    ep = dict(re.findall(r"^entry_sha256:\s*(\S+)\s+([0-9a-f]{64})\s*$", text, re.M))
+    if not fp and not ep:
+        return "; no readable pins (the commit pins the field; run --pin to print them)"
+    files, entries = pins_at(commit, gitdir)
+    for kind, got, want in (("file", fp, files), ("entry", ep, entries)):
+        missing = sorted(set(want) - set(got)); extra = sorted(set(got) - set(want))
+        bad = sorted(k for k in set(got) & set(want) if got[k] != want[k])
+        if missing or extra or bad:
+            print(f"PIN MISMATCH ({kind}): missing {missing[:5]}, unknown {extra[:5]}, wrong hash {bad[:5]}; "
+                  "the declaration does not describe the field it was committed with"); sys.exit(4)
+    return f"; {len(fp)} file and {len(ep)} entry hashes in the declaration match its commit"
 
 def same_numbers(x, y, path="", tol=1e-9):
     """First place where two result trees differ, ignoring ran_at; None if they agree."""
@@ -169,6 +208,9 @@ def read_declared(dfile, results):
         note += one_run(int(b.group(1)), dfile, results)
     else:
         note += "; local clocks only (add 'beacon_round: N' for external ones)"
+    top = subprocess.run(["git", "-C", os.path.dirname(os.path.abspath(dfile)), "rev-parse", "--show-toplevel"],
+                         capture_output=True, text=True).stdout.strip()
+    note += check_pins(open(dfile).read(), first_commit(dfile), top)
     print(f"declared criterion: {m.group(1)} (committed {tr - td} s before the results{note})")
     return m.group(1)
 
@@ -206,6 +248,12 @@ def order_conflicts(rows):
 def main():
     args = sys.argv[1:]
     declared = None
+    if args[:1] == ["--pin"]:   # print readable pins for a new declaration, from HEAD
+        top = subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True).stdout.strip()
+        files, entries = pins_at("HEAD", top)
+        for k, v in sorted(files.items()): print(f"file_sha256: {k} {v}")
+        for k, v in sorted(entries.items()): print(f"entry_sha256: {k} {v}")
+        return
     if "--declared" in args:
         i = args.index("--declared")
         dfile = args[i + 1]
