@@ -121,6 +121,22 @@ def pins_at(commit, gitdir):
                 if m: entries[m.group(1)] = hashlib.sha256(blk.encode()).hexdigest()
     return files, entries
 
+def interpreter():
+    """The interpreter that replays the field: implementation and major.minor (random.Random's
+    shuffle/choice/randrange are not promised stable across minor versions)."""
+    import platform
+    return f"{platform.python_implementation()} {sys.version_info[0]}.{sys.version_info[1]}"
+
+def check_interpreter(text):
+    """A declaration's 'python: CPython 3.14' line must name the interpreter running the check."""
+    m = re.search(r"^python:\s*(.+?)\s*$", text, re.M)
+    if not m:
+        return "; interpreter not pinned (run --pin for a 'python:' line)"
+    if m.group(1) != interpreter():
+        print(f"INTERPRETER DIFFERS: declaration pins '{m.group(1)}', this check runs '{interpreter()}'; "
+              "the same field under another interpreter is another tournament"); sys.exit(4)
+    return f"; interpreter {interpreter()} as pinned"
+
 def check_pins(text, commit, gitdir):
     """Readable pins in the declaration ('file_sha256: path hex', 'entry_sha256: name hex') must match
     the declaration's own commit and cover every frozen file and every entry; '' if it has none."""
@@ -202,6 +218,7 @@ def read_declared(dfile, results):
         print(f"DECLARATION AFTER THE RUN: criterion committed at {td}, first seed ran at {min(ran)}; "
               "results produced earlier and committed later do not count"); sys.exit(4)
     note = f", {min(ran) - td} s before the first seed ran" if ran else "; no ran_at in results, commit order only"
+    note += check_interpreter(open(dfile).read())   # before any replay: another interpreter, another draw
     b = re.search(r"^beacon_round:\s*(\d+)\s*$", open(dfile).read(), re.M)
     if b:
         note += external_clocks(int(b.group(1)), dfile, results)
@@ -253,6 +270,7 @@ def main():
         files, entries = pins_at("HEAD", top)
         for k, v in sorted(files.items()): print(f"file_sha256: {k} {v}")
         for k, v in sorted(entries.items()): print(f"entry_sha256: {k} {v}")
+        print(f"python: {interpreter()}")
         return
     if "--declared" in args:
         i = args.index("--declared")
