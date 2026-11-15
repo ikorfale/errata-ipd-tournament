@@ -23,6 +23,8 @@ def verdict_py(text):
     except SystemExit as e: return f"exit {e.code}", o.getvalue().strip()
 py_cases = [("interpreter pinned, same", f"python: {g.interpreter()}\n", "ok"),
             ("interpreter pinned, other", "python: CPython 2.7\n", "exit 4"),
+            ("interpreter pinned major.minor only", f"python: {g.interpreter(False)}\n", "ok"),
+            ("interpreter pinned, other patch level", "python: " + g.interpreter().rsplit(".", 1)[0] + ".999\n", "exit 4"),
             ("interpreter not pinned", "criterion: mean\n", "ok")]
 fail = 0
 for name, text, want in cases:

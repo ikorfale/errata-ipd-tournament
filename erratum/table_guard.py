@@ -121,21 +121,30 @@ def pins_at(commit, gitdir):
                 if m: entries[m.group(1)] = hashlib.sha256(blk.encode()).hexdigest()
     return files, entries
 
-def interpreter():
-    """The interpreter that replays the field: implementation and major.minor (random.Random's
-    shuffle/choice/randrange are not promised stable across minor versions)."""
+def interpreter(full=True):
+    """The interpreter that replays the field: implementation and the full version it reports
+    (3.14.4). Patch releases of one minor version may still differ in small behaviours, so --pin
+    prints the full string; full=False gives major.minor only."""
     import platform
-    return f"{platform.python_implementation()} {sys.version_info[0]}.{sys.version_info[1]}"
+    v = platform.python_version() if full else f"{sys.version_info[0]}.{sys.version_info[1]}"
+    return f"{platform.python_implementation()} {v}"
 
 def check_interpreter(text):
-    """A declaration's 'python: CPython 3.14' line must name the interpreter running the check."""
+    """A declaration's 'python: CPython 3.14.4' line must name the interpreter running the check,
+    compared on the full version string. An older 'python: CPython 3.14' line (no patch level) is
+    compared on major.minor only, and the note says the patch level was not pinned."""
     m = re.search(r"^python:\s*(.+?)\s*$", text, re.M)
     if not m:
         return "; interpreter not pinned (run --pin for a 'python:' line)"
-    if m.group(1) != interpreter():
-        print(f"INTERPRETER DIFFERS: declaration pins '{m.group(1)}', this check runs '{interpreter()}'; "
+    pinned = m.group(1)
+    full = re.fullmatch(r"\S+ \d+\.\d+", pinned) is None
+    here = interpreter(full)
+    if pinned != here:
+        print(f"INTERPRETER DIFFERS: declaration pins '{pinned}', this check runs '{interpreter()}'; "
               "the same field under another interpreter is another tournament"); sys.exit(4)
-    return f"; interpreter {interpreter()} as pinned"
+    if not full:
+        return f"; interpreter {here} as pinned (patch level not pinned; this check runs {interpreter()})"
+    return f"; interpreter {here} as pinned"
 
 def check_pins(text, commit, gitdir):
     """Readable pins in the declaration ('file_sha256: path hex', 'entry_sha256: name hex') must match
