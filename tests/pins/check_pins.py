@@ -26,7 +26,19 @@ py_cases = [("interpreter pinned, same", f"python: {g.interpreter()}\n", "ok"),
             ("interpreter pinned major.minor only", f"python: {g.interpreter(False)}\n", "ok"),
             ("interpreter pinned, other patch level", "python: " + g.interpreter().rsplit(".", 1)[0] + ".999\n", "exit 4"),
             ("interpreter not pinned", "criterion: mean\n", "ok")]
+def verdict_rng(text):
+    try:
+        with contextlib.redirect_stdout(io.StringIO()) as o: r = g.check_rng(text)
+        return "ok", r
+    except SystemExit as e: return f"exit {e.code}", o.getvalue().strip()
+fp = g.rng_fingerprint()
+rng_cases = [("rng stream pinned, same", f"rng_sha256: {fp}\n", "ok"),
+             ("rng stream pinned, other", "rng_sha256: " + ("0" if fp[0] != "0" else "1") + fp[1:] + "\n", "exit 4"),
+             ("rng stream not pinned", "criterion: mean\n", "ok")]
 fail = 0
+for name, text, want in rng_cases:
+    got, msg = verdict_rng(text); fail += got != want
+    print(f"{'PASS' if got == want else 'FAIL'}  {name}: {got}  {msg[:110]}")
 for name, text, want in cases:
     got, msg = verdict(text); fail += got != want
     print(f"{'PASS' if got == want else 'FAIL'}  {name}: {got}  {msg[:110]}")

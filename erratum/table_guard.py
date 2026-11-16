@@ -146,6 +146,29 @@ def check_interpreter(text):
         return f"; interpreter {here} as pinned (patch level not pinned; this check runs {interpreter()})"
     return f"; interpreter {here} as pinned"
 
+def rng_fingerprint():
+    """What the interpreter's random module actually does, not what it is called: sha256 over the first
+    outputs of random.Random(0) in the operations the replay uses (random(), getrandbits(64), shuffle).
+    Two builds of one CPython version that shuffle differently get different fingerprints; two builds that
+    shuffle the same pass, so a replay on another machine is not refused for its compiler."""
+    import random, hashlib
+    r = random.Random(0); out = []
+    for _ in range(64): out.append(repr(r.random())); out.append(str(r.getrandbits(64)))
+    xs = list(range(32)); r.shuffle(xs); out.append(",".join(map(str, xs)))
+    return hashlib.sha256("\n".join(out).encode()).hexdigest()
+
+def check_rng(text):
+    """A declaration's 'rng_sha256: hex' line (printed by --pin) must equal the fingerprint of the random
+    module running the check; a different stream is refused before any replay."""
+    m = re.search(r"^rng_sha256:\s*([0-9a-f]{64})\s*$", text, re.M)
+    if not m:
+        return "; RNG stream not pinned (run --pin for an 'rng_sha256:' line)"
+    here = rng_fingerprint()
+    if m.group(1) != here:
+        print(f"RNG STREAM DIFFERS: declaration pins rng_sha256 {m.group(1)[:12]}..., this build gives {here[:12]}...; "
+              "the same seeds draw different numbers here, so this is another tournament"); sys.exit(4)
+    return "; RNG stream as pinned"
+
 def check_pins(text, commit, gitdir):
     """Readable pins in the declaration ('file_sha256: path hex', 'entry_sha256: name hex') must match
     the declaration's own commit and cover every frozen file and every entry; '' if it has none."""
@@ -228,6 +251,7 @@ def read_declared(dfile, results):
               "results produced earlier and committed later do not count"); sys.exit(4)
     note = f", {min(ran) - td} s before the first seed ran" if ran else "; no ran_at in results, commit order only"
     note += check_interpreter(open(dfile).read())   # before any replay: another interpreter, another draw
+    note += check_rng(open(dfile).read())           # and another RNG stream under the same name is another draw too
     b = re.search(r"^beacon_round:\s*(\d+)\s*$", open(dfile).read(), re.M)
     if b:
         note += external_clocks(int(b.group(1)), dfile, results)
@@ -280,6 +304,7 @@ def main():
         for k, v in sorted(files.items()): print(f"file_sha256: {k} {v}")
         for k, v in sorted(entries.items()): print(f"entry_sha256: {k} {v}")
         print(f"python: {interpreter()}")
+        print(f"rng_sha256: {rng_fingerprint()}")
         return
     if "--declared" in args:
         i = args.index("--declared")
