@@ -146,14 +146,26 @@ def check_interpreter(text):
         return f"; interpreter {here} as pinned (patch level not pinned; this check runs {interpreter()})"
     return f"; interpreter {here} as pinned"
 
+# The only methods of random.Random the replay calls (ipd.tournament/match); tests/pins checks ipd.py
+# against this set, so a new call (shuffle, choice, randint...) fails the test until it is fingerprinted.
+REPLAY_RNG_CALLS = {"random"}
+# Seeds of the shapes the replay uses: sha256[:16] + k is a 64-bit int, and + k can carry into 65 bits,
+# which CPython's init_by_array feeds as a longer key; 0 is the one-word case.
+FINGERPRINT_SEEDS = (0, 2**32 + 1, 2**64 - 1, 2**64 + 19)
+
 def rng_fingerprint():
     """What the interpreter's random module actually does, not what it is called: sha256 over the first
-    outputs of random.Random(0) in the operations the replay uses (random(), getrandbits(64), shuffle).
-    Two builds of one CPython version that shuffle differently get different fingerprints; two builds that
-    shuffle the same pass, so a replay on another machine is not refused for its compiler."""
+    64 random() values from Random(s) for each seed shape the replay uses (one-, two- and three-word
+    integer seeds, so the seeding code is covered, not only the core stream), plus getrandbits(64) and
+    one shuffle as a wider check. Two builds that draw differently get different fingerprints; two that
+    draw the same pass, so a replay on another machine is not refused for its compiler."""
     import random, hashlib
-    r = random.Random(0); out = []
-    for _ in range(64): out.append(repr(r.random())); out.append(str(r.getrandbits(64)))
+    out = []
+    for s in FINGERPRINT_SEEDS:
+        r = random.Random(s); out.append(f"seed {s}")
+        for _ in range(64): out.append(repr(r.random()))
+    r = random.Random(0)
+    for _ in range(64): out.append(str(r.getrandbits(64)))
     xs = list(range(32)); r.shuffle(xs); out.append(",".join(map(str, xs)))
     return hashlib.sha256("\n".join(out).encode()).hexdigest()
 

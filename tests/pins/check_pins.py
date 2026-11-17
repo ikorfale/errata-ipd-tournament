@@ -35,7 +35,11 @@ fp = g.rng_fingerprint()
 rng_cases = [("rng stream pinned, same", f"rng_sha256: {fp}\n", "ok"),
              ("rng stream pinned, other", "rng_sha256: " + ("0" if fp[0] != "0" else "1") + fp[1:] + "\n", "exit 4"),
              ("rng stream not pinned", "criterion: mean\n", "ok")]
-fail = 0
+import re as _re
+calls = set(_re.findall(r"\brng\.(\w+)\(", open(os.path.join(TOP, "ipd.py")).read()))
+extra = calls - g.REPLAY_RNG_CALLS
+print(f"{'PASS' if not extra and calls else 'FAIL'}  replay RNG calls {sorted(calls)} all fingerprinted: {not extra}")
+fail = 1 if extra or not calls else 0
 for name, text, want in rng_cases:
     got, msg = verdict_rng(text); fail += got != want
     print(f"{'PASS' if got == want else 'FAIL'}  {name}: {got}  {msg[:110]}")
