@@ -13,6 +13,8 @@ def test_one_run_replays_here():
     out = run(os.path.join(H, "one_run", "check_one_run.py"))
     lines = dict(l.split(":", 1) for l in out.splitlines() if ":" in l)
     assert "('pass'" in lines["honest run"], out
+    # DECLARED.txt predates the pins: the pass must say it rests on no interpreter or rng pin
+    assert "interpreter not pinned" in lines["honest run"] and "RNG stream not pinned" in lines["honest run"], out
     assert "exit 4" in lines["one number changed"] and "REPLAY MISMATCH" in out, out
     assert "exit 4" in out.splitlines()[-1], out
 

@@ -9,7 +9,10 @@ RUN = os.path.join(H, "run.json")
 def case(path):
     out = io.StringIO()
     try:
-        with contextlib.redirect_stdout(out): r = g.one_run(n, D, path)
+        with contextlib.redirect_stdout(out):
+            # the same pin checks declared_criterion runs before a replay; this declaration
+            # (committed before the pins existed) carries neither, so the pass says so
+            t = open(D).read(); r = g.check_interpreter(t) + g.check_rng(t) + g.one_run(n, D, path)
         return "pass", r
     except SystemExit as e:
         return f"exit {e.code}", out.getvalue().strip()[:160]
