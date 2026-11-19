@@ -24,7 +24,10 @@ def verdict_py(text):
 py_cases = [("interpreter pinned, same", f"python: {g.interpreter()}\n", "ok"),
             ("interpreter pinned, other", "python: CPython 2.7\n", "exit 4"),
             ("interpreter pinned major.minor only", f"python: {g.interpreter(False)}\n", "ok"),
-            ("interpreter pinned, other patch level", "python: " + g.interpreter().rsplit(".", 1)[0] + ".999\n", "exit 4"),
+            ("interpreter pinned, other patch level, no rng pin", "python: " + g.interpreter().rsplit(".", 1)[0] + ".999\n", "exit 4"),
+            ("interpreter pinned, other patch level, rng pin", "python: " + g.interpreter().rsplit(".", 1)[0] + ".999\n"
+             + "rng_sha256: " + g.rng_fingerprint() + "\n", "ok"),
+            ("interpreter pinned, other minor, rng pin", "python: CPython 3.1.4\n" + "rng_sha256: " + g.rng_fingerprint() + "\n", "exit 4"),
             ("interpreter not pinned", "criterion: mean\n", "ok")]
 def verdict_rng(text):
     try:

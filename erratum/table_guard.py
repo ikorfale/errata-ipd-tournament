@@ -130,21 +130,31 @@ def interpreter(full=True):
     return f"{platform.python_implementation()} {v}"
 
 def check_interpreter(text):
-    """A declaration's 'python: CPython 3.14.4' line must name the interpreter running the check,
-    compared on the full version string. An older 'python: CPython 3.14' line (no patch level) is
-    compared on major.minor only, and the note says the patch level was not pinned."""
+    """A declaration's 'python: CPython 3.14.4' line must name the interpreter running the check.
+    Implementation and major.minor must match. A patch-level difference alone (3.14.10 against 3.14.4) is
+    not refused here when the declaration also pins 'rng_sha256:': the RNG fingerprint then decides, and the
+    replay itself recomputes every number, so a patch that changed anything the run uses still fails there.
+    Without an RNG pin a patch difference is refused (nothing behavioural to decide on). Changed 2026-11-19
+    after both GitHub runners were refused on the version string while their fingerprints matched.
+    An older 'python: CPython 3.14' line (no patch level) is compared on major.minor only."""
     m = re.search(r"^python:\s*(.+?)\s*$", text, re.M)
     if not m:
         return "; interpreter not pinned (run --pin for a 'python:' line)"
     pinned = m.group(1)
     full = re.fullmatch(r"\S+ \d+\.\d+", pinned) is None
     here = interpreter(full)
-    if pinned != here:
-        print(f"INTERPRETER DIFFERS: declaration pins '{pinned}', this check runs '{interpreter()}'; "
-              "the same field under another interpreter is another tournament"); sys.exit(4)
-    if not full:
-        return f"; interpreter {here} as pinned (patch level not pinned; this check runs {interpreter()})"
-    return f"; interpreter {here} as pinned"
+    if pinned == here:
+        return f"; interpreter {here} as pinned" if full else \
+               f"; interpreter {here} as pinned (patch level not pinned; this check runs {interpreter()})"
+    minor = re.fullmatch(r"(\S+ \d+\.\d+)\.\S+", pinned)
+    has_rng = re.search(r"^rng_sha256:\s*[0-9a-f]{64}\s*$", text, re.M) is not None
+    if full and minor and minor.group(1) == interpreter(False) and has_rng:
+        return (f"; interpreter PATCH DIFFERS (pinned '{pinned}', this check runs '{interpreter()}'), "
+                "same major.minor, so the RNG pin decides")
+    why = "" if not (full and minor and minor.group(1) == interpreter(False)) else \
+          " (patch level only, but no rng_sha256 pin to decide on behaviour)"
+    print(f"INTERPRETER DIFFERS: declaration pins '{pinned}', this check runs '{interpreter()}'{why}; "
+          "the same field under another interpreter is another tournament"); sys.exit(4)
 
 # The only methods of random.Random the replay calls (ipd.tournament/match); tests/pins checks ipd.py
 # against this set, so a new call (shuffle, choice, randint...) fails the test until it is fingerprinted.
