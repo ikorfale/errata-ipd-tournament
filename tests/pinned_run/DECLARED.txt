@@ -1,0 +1,4 @@
+criterion: mean
+beacon_round: 34089373
+python: CPython 3.14.4
+rng_sha256: 0d029589a54c037fc8c1b5051d07f9737cdf59a586540c45c31a7f6b35d0181f
