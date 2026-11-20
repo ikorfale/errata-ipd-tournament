@@ -129,6 +129,12 @@ def interpreter(full=True):
     v = platform.python_version() if full else f"{sys.version_info[0]}.{sys.version_info[1]}"
     return f"{platform.python_implementation()} {v}"
 
+# How the interpreter check passed, printed as the last line of a declared check ('pass: ...') so a reader
+# of the log can separate strict passes from runs admitted on the RNG fingerprint despite a patch difference
+# (asked by fieldnotes-ai, 20 Nov). --strict refuses that override: only the pinned full version passes.
+STRICT = False
+PASS_KIND = "interpreter not checked"
+
 def check_interpreter(text):
     """A declaration's 'python: CPython 3.14.4' line must name the interpreter running the check.
     Implementation and major.minor must match. A patch-level difference alone (3.14.10 against 3.14.4) is
@@ -137,22 +143,27 @@ def check_interpreter(text):
     Without an RNG pin a patch difference is refused (nothing behavioural to decide on). Changed 2026-11-19
     after both GitHub runners were refused on the version string while their fingerprints matched.
     An older 'python: CPython 3.14' line (no patch level) is compared on major.minor only."""
+    global PASS_KIND
     m = re.search(r"^python:\s*(.+?)\s*$", text, re.M)
     if not m:
+        PASS_KIND = f"interpreter not pinned (ran '{interpreter()}')"
         return "; interpreter not pinned (run --pin for a 'python:' line)"
     pinned = m.group(1)
     full = re.fullmatch(r"\S+ \d+\.\d+", pinned) is None
     here = interpreter(full)
     if pinned == here:
+        PASS_KIND = f"strict (pinned '{pinned}', ran '{interpreter()}')"
         return f"; interpreter {here} as pinned" if full else \
                f"; interpreter {here} as pinned (patch level not pinned; this check runs {interpreter()})"
     minor = re.fullmatch(r"(\S+ \d+\.\d+)\.\S+", pinned)
     has_rng = re.search(r"^rng_sha256:\s*[0-9a-f]{64}\s*$", text, re.M) is not None
-    if full and minor and minor.group(1) == interpreter(False) and has_rng:
+    if full and minor and minor.group(1) == interpreter(False) and has_rng and not STRICT:
+        PASS_KIND = f"patch-override (pinned '{pinned}', ran '{interpreter()}')"
         return (f"; interpreter PATCH DIFFERS (pinned '{pinned}', this check runs '{interpreter()}'), "
                 "same major.minor, so the RNG pin decides")
     why = "" if not (full and minor and minor.group(1) == interpreter(False)) else \
-          " (patch level only, but no rng_sha256 pin to decide on behaviour)"
+          (" (patch level only, refused because --strict)" if STRICT and has_rng else
+           " (patch level only, but no rng_sha256 pin to decide on behaviour)")
     print(f"INTERPRETER DIFFERS: declaration pins '{pinned}', this check runs '{interpreter()}'{why}; "
           "the same field under another interpreter is another tournament"); sys.exit(4)
 
@@ -284,6 +295,7 @@ def read_declared(dfile, results):
                          capture_output=True, text=True).stdout.strip()
     note += check_pins(open(dfile).read(), first_commit(dfile), top)
     print(f"declared criterion: {m.group(1)} (committed {tr - td} s before the results{note})")
+    print(f"pass: {PASS_KIND}")
     return m.group(1)
 
 def guard(names, cols, label):
@@ -304,6 +316,11 @@ def guard(names, cols, label):
             flag = (flag + " " if flag else "") + "median=0"
         if flag:
             bad.append((r, n, flag))
+        # The replay accepts numbers within 1e-9 relative (same_numbers), so two means closer than that are
+        # one place: a patch release could swap them without failing the replay (fieldnotes-ai, 20 Nov).
+        pm = rows[r - 2][0] if r > 1 else None
+        if pm is not None and abs(pm - m) <= 1e-9 * max(1.0, abs(pm), abs(m)):
+            flag = (flag + " " if flag else "") + "tie-above"
         print(f"{r:>2} {n:34} {m:9.5f} {sd:9.5f} {med:9.5f} {nz:7d}  {flag}")
     return bad, rows
 
@@ -328,6 +345,9 @@ def main():
         print(f"python: {interpreter()}")
         print(f"rng_sha256: {rng_fingerprint()}")
         return
+    if "--strict" in args:
+        global STRICT
+        STRICT = True; args.remove("--strict")
     if "--declared" in args:
         i = args.index("--declared")
         dfile = args[i + 1]

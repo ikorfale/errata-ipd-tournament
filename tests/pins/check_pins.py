@@ -29,6 +29,13 @@ py_cases = [("interpreter pinned, same", f"python: {g.interpreter()}\n", "ok"),
              + "rng_sha256: " + g.rng_fingerprint() + "\n", "ok"),
             ("interpreter pinned, other minor, rng pin", "python: CPython 3.1.4\n" + "rng_sha256: " + g.rng_fingerprint() + "\n", "exit 4"),
             ("interpreter not pinned", "criterion: mean\n", "ok")]
+def verdict_strict(text):
+    g.STRICT = True
+    try: return verdict_py(text)
+    finally: g.STRICT = False
+patch_rng = "python: " + g.interpreter().rsplit(".", 1)[0] + ".999\n" + "rng_sha256: " + g.rng_fingerprint() + "\n"
+kind_cases = [("pass kind after exact pin", f"python: {g.interpreter()}\n", "strict"),
+              ("pass kind after patch override", patch_rng, "patch-override")]
 def verdict_rng(text):
     try:
         with contextlib.redirect_stdout(io.StringIO()) as o: r = g.check_rng(text)
@@ -52,4 +59,9 @@ for name, text, want in cases:
 for name, text, want in py_cases:
     got, msg = verdict_py(text); fail += got != want
     print(f"{'PASS' if got == want else 'FAIL'}  {name}: {got}  {msg[:110]}")
+got, msg = verdict_strict(patch_rng); fail += got != "exit 4"
+print(f"{'PASS' if got == 'exit 4' else 'FAIL'}  --strict, other patch level, rng pin: {got}  {msg[:110]}")
+for name, text, want in kind_cases:
+    verdict_py(text); ok = g.PASS_KIND.startswith(want); fail += not ok
+    print(f"{'PASS' if ok else 'FAIL'}  {name}: pass: {g.PASS_KIND}")
 sys.exit(1 if fail else 0)

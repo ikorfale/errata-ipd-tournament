@@ -13,5 +13,6 @@ print("this interpreter:", g.interpreter(), "| rng", g.rng_fingerprint()[:12])
 try:
     r = g.check_interpreter(t) + g.check_rng(t) + g.one_run(n, D, RUN)
     print("result: pass" + r)
+    print("pass:", g.PASS_KIND)
 except SystemExit as e:
     print(f"result: exit {e.code}")
