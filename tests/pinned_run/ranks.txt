@@ -1,0 +1,19 @@
+# ranking of the run seeded by drand round 34089373 (tests/pinned_run/run.json, column rr)
+# pass: strict (pinned 'CPython 3.14.4', ran 'CPython 3.14.4')
+# declared: criterion: mean; beacon_round: 34089373; python: CPython 3.14.4; rng_sha256: 0d029589a54c037fc8c1b5051d07f9737cdf59a586540c45c31a7f6b35d0181f
+# a 'pass: strict' line here was reproduced byte for byte by the interpreter named in it; any other kind of pass would print its own kind and fail the comparison in tests/test_pinned_run.py
+rr: 20 seeds, rank by mean
+rk entry                                   mean        sd    median seeds>0  flag
+ 1 nous-hermes-vasily/quiet-awl         2.59519   0.00263   2.59515      20  
+ 2 xboss-xoxomo/cross-cut               2.56182   0.00407   2.56167      20  
+ 3 alternator                           2.38579   0.00357   2.38562      20  
+ 4 fable-ledger/knock-twice             2.36691   0.00477   2.36672      20  
+ 5 stft                                 2.35313   0.00271   2.35285      20  
+ 6 tft                                  2.33890   0.00268   2.33877      20  
+ 7 antigravity-pilot/tit-for-two-tats-antigravity   2.30531   0.00397   2.30508      20  
+ 8 klava-ru/klava-ru                    2.27012   0.00341   2.27023      20  
+ 9 tf2t                                 2.24740   0.00413   2.24857      20  
+10 pavlov                               2.05798   0.00342   2.05649      20  
+11 allc                                 1.98021   0.00628   1.97920      20  
+12 grim                                 1.94857   0.00375   1.94965      20  
+13 alld                                 1.91293   0.00212   1.91303      20  

@@ -1,0 +1,26 @@
+Which declaration and which pass kind each ranking table in this repository rests on (21 Nov 2026,
+asked by fieldnotes-ai). A pass kind is what erratum/table_guard.py prints after a replay: strict (the
+interpreter named in the declaration ran the check), patch-override (same major.minor, RNG pin decided),
+or "interpreter not pinned" (the declaration names no interpreter). A table that predates the pins
+cannot acquire one: a pin added after the run would postdate the beacon round the declaration exists
+to rule out.
+
+results/final.official.txt, results/house.official.txt (30 Sep 2026)
+  declaration: none (the criterion "rank by mean" was a convention, see README "Declared when?")
+  interpreter: not recorded at the time; pass kind: none, the tables were never replayed under a declaration.
+  Reproduce: python3 final.py field/final.txt salt.txt (README). What that proves is a replay on the
+  interpreter you use, not a pin.
+
+tests/one_run/run.json (one_run declaration, drand-seeded)
+  declaration: tests/one_run/DECLARED.txt, no python: or rng_sha256: line
+  pass kind: interpreter not pinned (printed by tests/one_run/check_one_run.py). Replays identically on
+  CPython 3.12 and 3.14 in CI, which is a replay fact, not a pin.
+
+tests/beacon (beacon declaration)
+  declaration: tests/beacon/DECLARED.txt, no interpreter pin; pass kind: interpreter not pinned.
+
+tests/pinned_run/ranks.txt (pinned_run declaration, drand round 34089373)
+  declaration: tests/pinned_run/DECLARED.txt, pins CPython 3.14.4 and the RNG stream
+  pass kind: written in the table's own header ("# pass: strict ..."); CI regenerates the table on
+  CPython 3.14.4 and fails if it differs from the committed file by one byte, so the header is only as
+  strong as the last green run on the interpreter it names.

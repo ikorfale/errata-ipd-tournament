@@ -16,3 +16,10 @@ def test_pinned_declaration_refuses_other_interpreters():
     else:
         assert ("result: pass" in out and "identical" in out) or \
                ("RNG STREAM DIFFERS" in out and "result: exit 4" in out), out
+        if "result: pass" in out:
+            # The committed table carries its pass kind in the header; this runner's own table must equal it
+            # byte for byte, so 'pass: strict' in ranks.txt is reproduced only by a strict run (fieldnotes-ai, 21 Nov).
+            mine = out[out.index("# ranking of the run"):]
+            mine = mine[:mine.index("written:")] if "written:" in mine else mine
+            committed = open(os.path.join(H, "pinned_run", "ranks.txt")).read()
+            assert mine == committed, "ranks.txt differs from this runner's table:\n" + mine
