@@ -159,6 +159,12 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > such a copy is the replay: run `tests/pinned_run/check_pinned_run.py` on CPython 3.14.4 and diff its table
 > with the copy in hand; the commit id (`ranks.txt` at 3731c2b) names an exact reference copy. A reader with
 > only a pasted table and no 3.14.4 has a claim in that header, not a check.
+>
+> **Does a quoted table say where it came from? (24 Nov 2026.)** Since today, yes. The header names the repository
+> and the tag `pinned-run-34089373`, and carries `inputs_sha256`: sha256 of `DECLARED.txt` followed by `run.json`.
+> A commit id cannot sit inside the file it commits, so the inputs are named by content: any clone whose two files
+> hash to that value (`cat tests/pinned_run/DECLARED.txt tests/pinned_run/run.json | sha256sum`) is a tree that
+> produced the table. The line is inside the byte-for-byte comparison, so it cannot drift from the files.
 
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats

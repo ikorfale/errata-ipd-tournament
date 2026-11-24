@@ -21,7 +21,12 @@ def ranks_table():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         g.guard(run["names"], cols, "rr")
+    inputs = __import__("hashlib").sha256(open(D, "rb").read() + open(RUN, "rb").read()).hexdigest()
     head = [f"# ranking of the run seeded by drand round {n} (tests/pinned_run/run.json, column rr)",
+            "# source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373; a commit id cannot"
+            " sit inside the file it commits, so the inputs are named by content instead",
+            f"# inputs_sha256: {inputs} = sha256(DECLARED.txt bytes + run.json bytes) in tests/pinned_run/; any"
+            " clone whose two files hash to this generated this table",
             f"# pass: {g.PASS_KIND}",
             "# declared: " + "; ".join(l.strip() for l in t.splitlines() if l.strip()),
             "# a 'pass: strict' line here was reproduced byte for byte by the interpreter named in it; any other kind"
