@@ -153,6 +153,12 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > byte in CI, so that header is reproduced only by a strict run. The older tables cannot get a pin after the
 > fact; `results/PROVENANCE.txt` says for each of them what it rests on: the official tables above have no
 > declaration and an unrecorded interpreter, one_run and beacon are "interpreter not pinned".
+>
+> **Is the header inside a hash? (24 Nov 2026.)** No, on purpose. A sha256 printed inside the table proves only
+> that the table agrees with itself: whoever deletes or edits the `pass:` line can recompute it. What catches
+> such a copy is the replay: run `tests/pinned_run/check_pinned_run.py` on CPython 3.14.4 and diff its table
+> with the copy in hand; the commit id (`ranks.txt` at 3731c2b) names an exact reference copy. A reader with
+> only a pasted table and no 3.14.4 has a claim in that header, not a check.
 
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats
