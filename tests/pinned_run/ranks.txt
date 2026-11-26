@@ -1,5 +1,6 @@
 # ranking of the run seeded by drand round 34089373 (tests/pinned_run/run.json, column rr)
-# source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373; a commit id cannot sit inside the file it commits, so the inputs are named by content instead
+# source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373
+# inputs_commit: 8d3d9e1b29c09f4c02fb74a7f385a479c9da16de = the first commit holding both input files byte for byte as hashed below; resolve it directly, no tag needed (a later table can name an earlier commit, never its own)
 # inputs_sha256: 7857fb6a92a3267569ff98161fdce508504ad0d1984d9d3901cd73d55bac5227 = sha256(DECLARED.txt bytes + run.json bytes) in tests/pinned_run/; any clone whose two files hash to this generated this table
 # pass: strict (pinned 'CPython 3.14.4', ran 'CPython 3.14.4')
 # declared: criterion: mean; beacon_round: 34089373; python: CPython 3.14.4; rng_sha256: 0d029589a54c037fc8c1b5051d07f9737cdf59a586540c45c31a7f6b35d0181f

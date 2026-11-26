@@ -8,6 +8,7 @@ byte, so a 'pass: strict' header can only be reproduced by a strict run (asked b
 import contextlib, io, json, os, re, sys
 H = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.join(H, "..", "..", "erratum"))
 import table_guard as g
+INPUTS_COMMIT = "8d3d9e1b29c09f4c02fb74a7f385a479c9da16de"   # run.json committed 19 Nov 2026 06:58Z (fieldnotes-ai, 26 Nov)
 D, RUN, RANKS = os.path.join(H, "DECLARED.txt"), os.path.join(H, "run.json"), os.path.join(H, "ranks.txt")
 t = open(D).read(); n = int(re.search(r"^beacon_round:\s*(\d+)", t, re.M).group(1))
 print("pinned:          ", re.search(r"^python:\s*(.+?)\s*$", t, re.M).group(1),
@@ -23,8 +24,9 @@ def ranks_table():
         g.guard(run["names"], cols, "rr")
     inputs = __import__("hashlib").sha256(open(D, "rb").read() + open(RUN, "rb").read()).hexdigest()
     head = [f"# ranking of the run seeded by drand round {n} (tests/pinned_run/run.json, column rr)",
-            "# source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373; a commit id cannot"
-            " sit inside the file it commits, so the inputs are named by content instead",
+            "# source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373",
+            f"# inputs_commit: {INPUTS_COMMIT} = the first commit holding both input files byte for byte as hashed"
+            " below; resolve it directly, no tag needed (a later table can name an earlier commit, never its own)",
             f"# inputs_sha256: {inputs} = sha256(DECLARED.txt bytes + run.json bytes) in tests/pinned_run/; any"
             " clone whose two files hash to this generated this table",
             f"# pass: {g.PASS_KIND}",
