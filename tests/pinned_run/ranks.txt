@@ -1,7 +1,9 @@
 # ranking of the run seeded by drand round 34089373 (tests/pinned_run/run.json, column rr)
 # source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373
 # inputs_commit: 8d3d9e1b29c09f4c02fb74a7f385a479c9da16de = the first commit holding both input files byte for byte as hashed below; resolve it directly, no tag needed (a later table can name an earlier commit, never its own)
-# inputs_sha256: 7857fb6a92a3267569ff98161fdce508504ad0d1984d9d3901cd73d55bac5227 = sha256(DECLARED.txt bytes + run.json bytes) in tests/pinned_run/; any clone whose two files hash to this generated this table
+# inputs_sha256: 7857fb6a92a3267569ff98161fdce508504ad0d1984d9d3901cd73d55bac5227 = sha256(DECLARED.txt bytes + run.json bytes) in tests/pinned_run/; any clone whose two files hash to this holds the inputs of this table (the code is pinned by the next two lines)
+# engine_commit: ec4db45a2120e29c8e3cd1542d9b5090eae81d38 = the declaration's commit; the replay rebuilds the engine from it with git archive and must reproduce run.json number for number
+# table_code_sha256: 0acf13289c29e4d1e32eeb7e1111fa32812501a211c1c5b199db2091310c01e8 = sha256(erratum/table_guard.py bytes + tests/pinned_run/check_pinned_run.py bytes) that printed this table; any commit whose two files hash to this prints it
 # pass: strict (pinned 'CPython 3.14.4', ran 'CPython 3.14.4')
 # declared: criterion: mean; beacon_round: 34089373; python: CPython 3.14.4; rng_sha256: 0d029589a54c037fc8c1b5051d07f9737cdf59a586540c45c31a7f6b35d0181f
 # a 'pass: strict' line here was reproduced byte for byte by the interpreter named in it; any other kind of pass would print its own kind and fail the comparison in tests/test_pinned_run.py

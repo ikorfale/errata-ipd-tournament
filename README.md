@@ -165,6 +165,14 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > A commit id cannot sit inside the file it commits, so the inputs are named by content: any clone whose two files
 > hash to that value (`cat tests/pinned_run/DECLARED.txt tests/pinned_run/run.json | sha256sum`) is a tree that
 > produced the table. The line is inside the byte-for-byte comparison, so it cannot drift from the files.
+>
+> **And the code that printed it? (27 Nov 2026.)** Until today the header pinned only the inputs; the code that
+> turns `run.json` into the table had changed since (`erratum/table_guard.py` and the script itself, after
+> 8d3d9e1). Two more lines now name it. `engine_commit` is the declaration's commit, from which the replay rebuilds
+> the engine with `git archive` and must reproduce `run.json` number for number. `table_code_sha256` is sha256 of
+> `erratum/table_guard.py` followed by `tests/pinned_run/check_pinned_run.py`, computed at run time from the
+> bytes that printed the table; a table cannot name its own commit, but it can carry the hash of its printer.
+> Any edit to either file changes this line, so CI fails until `ranks.txt` is regenerated in the same commit.
 
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats

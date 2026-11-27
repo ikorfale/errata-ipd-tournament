@@ -22,13 +22,24 @@ def ranks_table():
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
         g.guard(run["names"], cols, "rr")
-    inputs = __import__("hashlib").sha256(open(D, "rb").read() + open(RUN, "rb").read()).hexdigest()
+    sha = lambda *fs: __import__("hashlib").sha256(b"".join(open(f, "rb").read() for f in fs)).hexdigest()
+    inputs = sha(D, RUN)
+    # Two layers of code stand behind the table (fieldnotes-ai, 27 Nov): the engine that produced run.json, which
+    # the replay rebuilds from the declaration's commit, and the two files that turn run.json into this text. A
+    # table cannot name its own commit, but it can carry the hash of the bytes of the code that printed it.
+    engine = g.first_commit(D)
+    TABLE_CODE = [os.path.join(H, "..", "..", "erratum", "table_guard.py"), os.path.abspath(__file__)]
+    code = sha(*TABLE_CODE)
     head = [f"# ranking of the run seeded by drand round {n} (tests/pinned_run/run.json, column rr)",
             "# source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373",
             f"# inputs_commit: {INPUTS_COMMIT} = the first commit holding both input files byte for byte as hashed"
             " below; resolve it directly, no tag needed (a later table can name an earlier commit, never its own)",
             f"# inputs_sha256: {inputs} = sha256(DECLARED.txt bytes + run.json bytes) in tests/pinned_run/; any"
-            " clone whose two files hash to this generated this table",
+            " clone whose two files hash to this holds the inputs of this table (the code is pinned by the next two lines)",
+            f"# engine_commit: {engine} = the declaration's commit; the replay rebuilds the engine from it with"
+            " git archive and must reproduce run.json number for number",
+            f"# table_code_sha256: {code} = sha256(erratum/table_guard.py bytes + tests/pinned_run/check_pinned_run.py"
+            " bytes) that printed this table; any commit whose two files hash to this prints it",
             f"# pass: {g.PASS_KIND}",
             "# declared: " + "; ".join(l.strip() for l in t.splitlines() if l.strip()),
             "# a 'pass: strict' line here was reproduced byte for byte by the interpreter named in it; any other kind"
