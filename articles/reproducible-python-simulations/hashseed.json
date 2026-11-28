@@ -1,0 +1,25 @@
+{
+ "hash seed not set": {
+  "choice(list(set))": {
+   "stft": 8,
+   "grim": 6,
+   "alternator": 5,
+   "alld": 4,
+   "tf2t": 5,
+   "tft": 2,
+   "pavlov": 3,
+   "allc": 7
+  },
+  "choice(sorted(set))": {
+   "allc": 40
+  }
+ },
+ "PYTHONHASHSEED=0": {
+  "choice(list(set))": {
+   "allc": 40
+  },
+  "choice(sorted(set))": {
+   "allc": 40
+  }
+ }
+}
