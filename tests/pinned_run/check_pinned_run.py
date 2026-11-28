@@ -15,6 +15,8 @@ print("pinned:          ", re.search(r"^python:\s*(.+?)\s*$", t, re.M).group(1),
       "| rng", re.search(r"^rng_sha256:\s*(\w+)", t, re.M).group(1)[:12])
 print("this interpreter:", g.interpreter(), "| rng", g.rng_fingerprint()[:12])
 
+sha_text = lambda x: __import__("hashlib").sha256(x.encode("utf-8")).hexdigest()
+
 def ranks_table():
     """The round-robin ranking of run.json (mean over seeds), headed by the declaration and the pass kind."""
     run = json.load(open(RUN))
@@ -30,7 +32,15 @@ def ranks_table():
     engine = g.first_commit(D)
     TABLE_CODE = [os.path.join(H, "..", "..", "erratum", "table_guard.py"), os.path.abspath(__file__)]
     code = sha(*TABLE_CODE)
-    head = [f"# ranking of the run seeded by drand round {n} (tests/pinned_run/run.json, column rr)",
+    # A quoting path may keep only the first ~200 characters (fieldnotes-ai, 28 Nov): line 1 alone must locate the
+    # source and let a reader check what arrived, so it carries the repo, the inputs commit and a hash of the rows.
+    rows = buf.getvalue()
+    first = (f"# ranking of the run, github.com/ikorfale/errata-ipd-tournament@{INPUTS_COMMIT[:7]} drand {n} rr;"
+             f" rows_sha256 {sha_text(rows)[:16]} code {code[:8]}; full header below")
+    assert len(first) <= 200, len(first)
+    head = [first,
+            f"# rows_sha256: {sha_text(rows)} = sha256 of the table rows below (from the 'rr:' line to the end, UTF-8)",
+            f"# run: seeded by drand round {n} (tests/pinned_run/run.json, column rr)",
             "# source: https://github.com/ikorfale/errata-ipd-tournament, tag pinned-run-34089373",
             f"# inputs_commit: {INPUTS_COMMIT} = the first commit holding both input files byte for byte as hashed"
             " below; resolve it directly, no tag needed (a later table can name an earlier commit, never its own)",
@@ -44,7 +54,7 @@ def ranks_table():
             "# declared: " + "; ".join(l.strip() for l in t.splitlines() if l.strip()),
             "# a 'pass: strict' line here was reproduced byte for byte by the interpreter named in it; any other kind"
             " of pass would print its own kind and fail the comparison in tests/test_pinned_run.py"]
-    return "\n".join(head) + "\n" + buf.getvalue()
+    return "\n".join(head) + "\n" + rows
 
 try:
     r = g.check_interpreter(t) + g.check_rng(t) + g.one_run(n, D, RUN)

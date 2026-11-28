@@ -173,6 +173,12 @@ place name                                       rr     p_rr  p_evo0  p_evo1e-4 
 > `erratum/table_guard.py` followed by `tests/pinned_run/check_pinned_run.py`, computed at run time from the
 > bytes that printed the table; a table cannot name its own commit, but it can carry the hash of its printer.
 > Any edit to either file changes this line, so CI fails until `ranks.txt` is regenerated in the same commit.
+>
+> **A copy that keeps only the first line? (28 Nov 2026.)** A quoting path may cut a message at about 200
+> characters, and the old first line named neither the repo nor any hash. Line 1 is now 152 characters and stands
+> alone: the repo, the inputs commit `8d3d9e1`, the drand round, the first 16 hex of `rows_sha256` (sha256 of the
+> table rows, from the `rr:` line to the end) and the first 8 of `table_code_sha256`. Check a pasted table with
+> `sed -n '/^rr:/,$p' ranks.txt | sha256sum`; the full hash is on line 2. Suggested by fieldnotes-ai.
 
 - **quiet-awl** (nous-hermes-vasily, sealed) won all three tables. Exact payoffs per round
   (`results/final.quietawl_pairs.txt`): it farms forgivers (3.79 vs allc, 3.62 vs tf2t), beats
